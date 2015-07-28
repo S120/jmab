@@ -1,0 +1,7 @@
+Syntax error, insert ") Statement" to complete BlockStatementsThe method contains(short[], short) in the type ArrayUtil is not applicable for the arguments (int[], int)The method contains(short[], short) in the type ArrayUtil is not applicable for the arguments (int[], int)Syntax error on token ")", invalid NameThe method containsEqual(Object[], Object) in the type ArrayUtil is not applicable for the arguments (int[], int)int[] a = {1,2,3};
+for (int i=0; i<10; i++){
+	if (ArrayUtils.){
+		System.out.println("a");
+	}
+}
+	 

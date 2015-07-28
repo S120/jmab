@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  "Innovation, Demand, and Finance in an Agent Based-Stock Flow Consistent model" 
+Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kinsella, S., Stiglitz, J.
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<import resource="modelBaselineMonteCarlo4000.xml"/>
+	<import resource="reports.xml" />
+	
+	<bean id="simulationController" 
+			class="net.sourceforge.jabm.SpringSimulationController"
+			scope="singleton">
+			
+		<property name="simulationBeanName">
+		   <idref local="macroSimulation"/>
+		</property>
+	
+		<property name="numSimulations" value="50"/>	
+		
+		<property name="reports">
+			<list>
+				<ref bean="nominalGDPEventReport" />
+				<ref bean="nominalGDPCSVReport" />
+				<ref bean="nominalInvestmentEventReport" />
+				<ref bean="nominalInvestmentCSVReport" />
+				<ref bean="unemploymentEventReport" />
+				<ref bean="unemploymentCSVReport" />
+				<ref bean="bankCreditEventReport" />
+				<ref bean="microBankCreditCSVReport" />
+				<ref bean="creditDegreeEventReport" />
+				<ref bean="creditDegreeCSVReport" />
+				<ref bean="realInvEventReport" />
+				<ref bean="microRealInvCSVReport" />
+				<ref bean="microRealSalesKEventReport" />
+				<ref bean="microRealSalesKCSVReport" />
+				<ref bean="microRealSalesCEventReport" />
+				<ref bean="microRealSalesCCSVReport" />
+				<ref bean="microNominalSalesKEventReport" />
+				<ref bean="microNominalSalesKCSVReport" />
+				<ref bean="microNominalSalesCEventReport" />
+				<ref bean="microNominalSalesCCSVReport" />
+				<ref bean="aggHHBSEventReport" />
+				<ref bean="aggHHBSCSVReport" />
+				<ref bean="aggCFBSEventReport" />
+				<ref bean="aggCFBSCSVReport" />
+				<ref bean="aggKFBSEventReport" />
+				<ref bean="aggKFBSCSVReport" />
+				<ref bean="aggBBSEventReport" />
+				<ref bean="aggBBSCSVReport" />
+				<ref bean="aggGBSEventReport" />
+				<ref bean="aggGBSCSVReport" />
+				<ref bean="aggCBBSEventReport" />
+				<ref bean="aggCBBSCSVReport" />
+				<ref bean="cAvPriceEventReport" />
+				<ref bean="cAvPriceCSVReport" />
+				<ref bean="kAvPriceEventReport" />
+				<ref bean="kAvPriceCSVReport" />
+				<ref bean="loanAvInterestEventReport" />
+				<ref bean="loanAvInterestCSVReport" />
+				<ref bean="depAvInterestEventReport" />
+				<ref bean="depAvInterestCSVReport" />
+				<ref bean="avWageEventReport" />
+				<ref bean="avWageCSVReport" />
+				<ref bean="avNetIncomeEventReport" />
+				<ref bean="avNetIncomeCSVReport" />
+				<ref bean="kFirmsBankruptcyEventReport" />
+				<ref bean="kFirmsBankruptcyCSVReport" />
+				<ref bean="cFirmsBankruptcyEventReport" />
+				<ref bean="cFirmsBankruptcyCSVReport" />
+				<ref bean="banksBankruptcyEventReport" />
+				<ref bean="banksBankruptcyCSVReport" />
+				<ref bean="cAggConsCreditEventReport" />
+				<ref bean="cAggConsCreditCSVReport" />
+				<ref bean="kAggConsCreditEventReport" />
+				<ref bean="kAggConsCreditCSVReport" />
+				<ref bean="cCapacityEventReport" />
+				<ref bean="microCCapacityCSVReport" />	
+				<ref bean="cCapacityUtilizationEventReport" />
+				<ref bean="microCCapacityUtilizationCSVReport" />
+				<ref bean="banksCREventReport" />
+				<ref bean="banksCRCSVReport" />
+				<ref bean="banksLREventReport" />
+				<ref bean="banksLRCSVReport" />
+				<ref bean="banksLossEventReport" />
+				<ref bean="banksLossCSVReport" />
+				<ref bean="microBailoutCostKEventReport" />
+				<ref bean="microBailoutCostKCSVReport" />
+				<ref bean="microBailoutCostCEventReport" />
+				<ref bean="microBailoutCostCCSVReport" />
+				<ref bean="microBailoutCostBanksEventReport" />
+				<ref bean="microBailoutCostBanksCSVReport" />
+			</list>
+		</property>
+		
+		<property name="modelDescription" 
+			value="Caiani et Al. - Innovation, Demand, and Finance in an Agent Based-Stock Flow Consistent model"/>
+			
+	</bean>
+
+	<bean id="fileNamePrefix" class="net.sourceforge.jabm.util.MutableStringWrapper"
+		scope="singleton">
+		<constructor-arg value="data/" />
+	</bean>
+
+</beans>
