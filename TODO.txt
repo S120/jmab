@@ -1,0 +1,61 @@
+Issue with the CAR (we don't use it for now).
+
+TaxPayers - OK
+SwitchingStrategies - OK
+Bank credit supply specific and general -OK
+Active/Disactive situation of agent on markets - OK
+Government Labor Market - OK
+Liquidity allocation for firms - OK
+Government reserve account instead of deposit account - OK
+Population Handler
+Bond interest rate - OK
+Banks bankruptcy - OK
+DepositInterestRate ReferenceVariable - OK
+Wage update - OK
+Update aggregate values in macro simulation - Need to be event based as it has to be developed per model (probably related 
+to the reports data collection)
+
+NOTE: HOW DO REPORTS WORK
+1. in the xml file, specify a list of reports of two types mainly: CSV or Charts. These reports are linked with a specific 
+event and a reportVariable
+2. The event trigger the ReportVariable which has to fetch the correct data in the event or somewhere else and update itself
+3. When this is done, an  ReportVariableChanged event is launched which automatically updates the CSV or Chart report and 
+does the relevant actions (print it on a file or on the GUI).
+
+What we need to do: 
+1. Think who and when to launch the specific event
+2. Write the correct setting up of the characteristic of the event
+3. Write the specific ReportVariable and the updating of its characteristics based on the event thrown.
+
+
+CONFIGURATION TODOS:
+Nested links between market simulations and macrosimulations
+
+REMAINING QUESTIONS:
+wage lower and upper bounds for households
+Re-think expectations
+In the investment strategies for consumption firms, why do we need two id for capital goods and production goods? See RealCapitalDemandWithPayBackPeriod with TODO
+Payable stocks and paying stocks
+Manage Cash with firms
+What happens when an agent dies during a simulation (tax payments and so on)
+What happens when all agents of a population die
+Reports
+Steady State
+
+SIMULATION FEEDBACK: no capital firm sells anything, some bankrupt because do not produce enough because do not get enough money 
+and thus cannot hire enough workers but this is strange. Consumption firms do sell allright.
+
+Wages setting and the Adaptive wage class. It is not generic.
+
+Clean-up of the code
+
+- Depositi come quota del redito (antoine)
+- Domanda di credito colla pecking order (alessandro)
+- Interest rate: risk premium + costo di finanziamento (a o a)
+- Profiti?
+- Calibrazione di crescita
+- Offerta di credito individuale basata sulla probabillita logistica di fallimento ed exposure media a perdite
+
+
+Nice to have
+- Endogenous dividends on the basis of targeted deposits
