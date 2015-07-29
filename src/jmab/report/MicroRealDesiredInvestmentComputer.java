@@ -18,13 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jmab.agents.GoodDemander;
 import jmab.agents.MacroAgent;
 import jmab.goods.CapitalGood;
 import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
-import modellone.StaticValues;
-import modellone.agents.ConsumptionFirm;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -94,8 +93,8 @@ public class MicroRealDesiredInvestmentComputer extends AbstractMicroComputer im
 				if(good.getAge()<0)
 					investment+=good.getQuantity();
 				}
-			ConsumptionFirm firm=(ConsumptionFirm)agent;
-			double desiredInvestment=firm.getDemand(StaticValues.SM_CAPGOOD)+investment;
+			GoodDemander firm=(GoodDemander)agent;
+			double desiredInvestment=firm.getDemand(capGoodId)+investment;
 			result.put(agent.getAgentId(), desiredInvestment);
 			}
 			else{

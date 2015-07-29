@@ -17,7 +17,6 @@ package jmab.events;
 import java.nio.ByteBuffer;
 
 import jmab.population.MacroPopulation;
-import modellone.StaticValues;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.event.SimulationControllerEvent;
 

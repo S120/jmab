@@ -21,7 +21,6 @@ import jmab.agents.CreditSupplier;
 import jmab.goods.Item;
 import jmab.goods.Loan;
 import jmab.population.MacroPopulation;
-import modellone.StaticValues;
 import net.sourceforge.jabm.distribution.AbstractDelegatedDistribution;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -41,6 +40,76 @@ public class SupplyCreditAdaptiveCARTarget extends AbstractStrategy implements
 	private double threshold;
 	private double adaptiveParameter;
 	private AbstractDelegatedDistribution distribution;
+	private int lagNonPerformingLoansId;
+	private int lagBankTotalLoanSupplyId;
+	
+	public void updateCARTarget (){
+		CreditSupplier supplier=(CreditSupplier) this.getAgent();
+		double nonPerformingLoans=0;
+		double outstandingLoans=0;
+		for (int i=1; i<=nbPeriods; i++){
+			nonPerformingLoans+=supplier.getPassedValue(lagNonPerformingLoansId, i);
+		}
+		List<Item> loans = supplier.getItemsStockMatrix(true, loansId);
+		for (Item loan:loans){
+			outstandingLoans+=loan.getValue();
+		}
+		if (nonPerformingLoans/outstandingLoans>threshold){
+			targetCAR+=adaptiveParameter*targetCAR*distribution.nextDouble();
+		}
+		else {
+			targetCAR-=adaptiveParameter*targetCAR*distribution.nextDouble();
+		}
+		if (targetCAR<mandatoryCAR){
+			targetCAR=mandatoryCAR;
+		}
+
+	}
+	
+	/* (non-Javadoc)
+	 * @see jmab.strategies.SupplyCreditStrategy#computeCreditSupply()
+	 */
+	@Override
+	public double computeCreditSupply() {
+		CreditSupplier supplier=(CreditSupplier) this.getAgent();
+		updateCARTarget();
+		
+		double capitalsValue=supplier.getNetWealth();
+		/*for(int i=0;i<capitalIds.length;i++){
+			double capitalValue=0;
+			List<Item> caps = supplier.getItemsStockMatrix(true, capitalIds[i]);
+			for(Item cap:caps){
+				capitalValue+=cap.getValue();
+			}
+			capitalsValue+=capitalValue*capitalsWeights[i];
+		} 
+	*/
+		double assetsValue=0;
+		List<Item> loans = supplier.getItemsStockMatrix(true, loansId);
+		for(Item asset:loans){
+			Loan loan=(Loan)asset;
+			assetsValue+=loan.getValue();
+		}
+		
+		 double currentCar=capitalsValue/assetsValue;
+		 //System.out.println(currentCar);
+		 double lastCreditSupply=supplier.getPassedValue(lagBankTotalLoanSupplyId, 1);
+		 if (currentCar>=targetCAR){
+			 return lastCreditSupply*(1+adaptiveParameter*distribution.nextDouble());
+		 }
+		 else {
+			 return lastCreditSupply*(1-adaptiveParameter*distribution.nextDouble());
+		 }
+		/*for(int i=0;i<assetsIds.length;i++){
+			double assetValue=0;
+			List<Item> assets = supplier.getItemsStockMatrix(true, capitalIds[i]);
+			for(Item asset:assets){
+				assetValue+=asset.getValue();
+			}
+			assetsValue+=assetValue*assetsWeights[i]; 
+		}
+		*/
+	}
 	
 	/**
 	 * @return the mandatoryCAR
@@ -151,98 +220,58 @@ public class SupplyCreditAdaptiveCARTarget extends AbstractStrategy implements
 	public void setLoansId(int loansId) {
 		this.loansId = loansId;
 	}
-
-
-	public void updateCARTarget (){
-		CreditSupplier supplier=(CreditSupplier) this.getAgent();
-		double nonPerformingLoans=0;
-		double outstandingLoans=0;
-		for (int i=1; i<=nbPeriods; i++){
-			nonPerformingLoans+=supplier.getPassedValue(StaticValues.LAG_NONPERFORMINGLOANS, i);
-		}
-		List<Item> loans = supplier.getItemsStockMatrix(true, StaticValues.SM_LOAN);
-		for (Item loan:loans){
-			outstandingLoans+=loan.getValue();
-		}
-		if (nonPerformingLoans/outstandingLoans>threshold){
-			targetCAR+=adaptiveParameter*targetCAR*distribution.nextDouble();
-		}
-		else {
-			targetCAR-=adaptiveParameter*targetCAR*distribution.nextDouble();
-		}
-		if (targetCAR<mandatoryCAR){
-			targetCAR=mandatoryCAR;
-		}
-
-	}
 	
-	
-	/* (non-Javadoc)
-	 * @see jmab.strategies.SupplyCreditStrategy#computeCreditSupply()
+	/**
+	 * @return the lagNonPerformingLoansId
 	 */
-	@Override
-	public double computeCreditSupply() {
-		CreditSupplier supplier=(CreditSupplier) this.getAgent();
-		updateCARTarget();
-		
-		double capitalsValue=supplier.getNetWealth();
-		/*for(int i=0;i<capitalIds.length;i++){
-			double capitalValue=0;
-			List<Item> caps = supplier.getItemsStockMatrix(true, capitalIds[i]);
-			for(Item cap:caps){
-				capitalValue+=cap.getValue();
-			}
-			capitalsValue+=capitalValue*capitalsWeights[i];
-		} 
-	*/
-		double assetsValue=0;
-		List<Item> loans = supplier.getItemsStockMatrix(true, StaticValues.SM_LOAN);
-		for(Item asset:loans){
-			Loan loan=(Loan)asset;
-			assetsValue+=loan.getValue();
-		}
-		
-		 double currentCar=capitalsValue/assetsValue;
-		 //System.out.println(currentCar);
-		 double lastCreditSupply=supplier.getPassedValue(StaticValues.LAG_BANKTOTLOANSUPPLY, 1);
-		 if (currentCar>=targetCAR){
-			 return lastCreditSupply*(1+adaptiveParameter*distribution.nextDouble());
-		 }
-		 else {
-			 return lastCreditSupply*(1-adaptiveParameter*distribution.nextDouble());
-		 }
-		/*for(int i=0;i<assetsIds.length;i++){
-			double assetValue=0;
-			List<Item> assets = supplier.getItemsStockMatrix(true, capitalIds[i]);
-			for(Item asset:assets){
-				assetValue+=asset.getValue();
-			}
-			assetsValue+=assetValue*assetsWeights[i]; 
-		}
-		*/
+	public int getLagNonPerformingLoansId() {
+		return lagNonPerformingLoansId;
+	}
+
+	/**
+	 * @param lagNonPerformingLoansId the lagNonPerformingLoansId to set
+	 */
+	public void setLagNonPerformingLoansId(int lagNonPerformingLoansId) {
+		this.lagNonPerformingLoansId = lagNonPerformingLoansId;
+	}
+
+	/**
+	 * @return the lagBankTotalLoanSupplyId
+	 */
+	public int getLagBankTotalLoanSupplyId() {
+		return lagBankTotalLoanSupplyId;
+	}
+
+	/**
+	 * @param lagBankTotalLoanSupplyId the lagBankTotalLoanSupplyId to set
+	 */
+	public void setLagBankTotalLoanSupplyId(int lagBankTotalLoanSupplyId) {
+		this.lagBankTotalLoanSupplyId = lagBankTotalLoanSupplyId;
 	}
 
 	/**
 	 * Generate the byte array structure of the strategy. The structure is as follow:
-	 * [mandatoryCAR][targetCAR][threshold][adaptiveParameter][loansId][nbPeriods]
+	 * [mandatoryCAR][targetCAR][threshold][adaptiveParameter][loansId][nbPeriods][lagNonPerformingLoansId][lagBankTotalLoanSupplyId]
 	 * @return the byte array content
 	 */
 	@Override
 	public byte[] getBytes() {
-		ByteBuffer buf = ByteBuffer.allocate(40);
+		ByteBuffer buf = ByteBuffer.allocate(48);
 		buf.putDouble(this.mandatoryCAR);
 		buf.putDouble(this.targetCAR);
 		buf.putDouble(this.threshold);
 		buf.putDouble(this.adaptiveParameter);
 		buf.putInt(this.loansId);
 		buf.putInt(this.nbPeriods);
+		buf.putInt(this.lagNonPerformingLoansId);
+		buf.putInt(this.lagBankTotalLoanSupplyId);
 		return buf.array();
 	}
 
 
 	/**
 	 * Populates the strategy from the byte array content. The structure should be as follows:
-	 * [mandatoryCAR][targetCAR][threshold][adaptiveParameter][loansId][nbPeriods]
+	 * [mandatoryCAR][targetCAR][threshold][adaptiveParameter][loansId][nbPeriods][lagNonPerformingLoansId][lagBankTotalLoanSupplyId]
 	 * @param content the byte array containing the structure of the strategy
 	 * @param pop the Macro Population of agents
 	 */
@@ -255,6 +284,8 @@ public class SupplyCreditAdaptiveCARTarget extends AbstractStrategy implements
 		this.adaptiveParameter = buf.getDouble();
 		this.loansId = buf.getInt();
 		this.nbPeriods = buf.getInt();
+		this.lagNonPerformingLoansId = buf.getInt();
+		this.lagBankTotalLoanSupplyId = buf.getInt();
 	}
 	
 }

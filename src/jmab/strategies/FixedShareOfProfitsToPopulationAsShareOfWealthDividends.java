@@ -16,10 +16,10 @@ package jmab.strategies;
 
 import java.nio.ByteBuffer;
 
+import jmab.agents.AbstractBank;
 import jmab.agents.MacroAgent;
 import jmab.goods.Deposit;
 import jmab.population.MacroPopulation;
-import modellone.agents.Bank;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -53,7 +53,7 @@ DividendsStrategy {
 			for(Agent receiver:receivers.getAgents()){
 				totalNW+=((MacroAgent)receiver).getNetWealth();
 			}
-			if (dividendPayer instanceof Bank){
+			if (dividendPayer instanceof AbstractBank){
 				Deposit payerDep = (Deposit)dividendPayer.getItemStockMatrix(true, reservesId);
 				if(profits>payerDep.getValue()){
 					profits=payerDep.getValue();
@@ -65,7 +65,7 @@ DividendsStrategy {
 					double toPay=profits*profitShare*nw/totalNW;			
 					recDep.setValue(recDep.getValue()+toPay);
 					payerDep.setValue(payerDep.getValue()-toPay);
-					Deposit otherBankReserves = (Deposit)((Bank)recDep.getLiabilityHolder()).getItemStockMatrix(true, reservesId);
+					Deposit otherBankReserves = (Deposit)((AbstractBank)recDep.getLiabilityHolder()).getItemStockMatrix(true, reservesId);
 					otherBankReserves.setValue(otherBankReserves.getValue()+toPay);
 
 				}
@@ -80,7 +80,7 @@ DividendsStrategy {
 					MacroAgent receiver =(MacroAgent) rec; 
 					double nw = receiver.getNetWealth();
 					Deposit recDep = (Deposit)receiver.getItemStockMatrix(true, depositId);
-					((Bank)payerDep.getLiabilityHolder()).transfer(payerDep, recDep, profits*profitShare*nw/totalNW);
+					((AbstractBank)payerDep.getLiabilityHolder()).transfer(payerDep, recDep, profits*profitShare*nw/totalNW);
 				}
 			}
 		}

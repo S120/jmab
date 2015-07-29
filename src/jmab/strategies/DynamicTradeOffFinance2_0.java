@@ -18,7 +18,6 @@ import java.nio.ByteBuffer;
 
 import jmab.agents.FinanceAgent;
 import jmab.population.MacroPopulation;
-import modellone.StaticValues;
 import net.sourceforge.jabm.distribution.AbstractDelegatedDistribution;
 
 /**
@@ -34,6 +33,22 @@ public class DynamicTradeOffFinance2_0 extends DynamicTradeOffFinance implements
 	
 	private int pastSalesId;
 	protected AbstractDelegatedDistribution distribution;
+	
+	@Override
+	public void updateLeverageTarget (){
+		FinanceAgent borrower= (FinanceAgent)this.getAgent();
+		double pastProfits=borrower.getPassedValue(pastProfitId, 1); 
+		double pastSales=borrower.getPassedValue(pastSalesId, 1);
+		if (pastProfits/pastSales>threshold){
+			leverageTarget+=adaptiveParameter*leverageTarget*distribution.nextDouble();
+		}
+		//else if (returnOnLoans==averageInterestRate && borrower.getReferenceVariableForFinance()<thresholdRefVariable){
+			//leverageTarget=leverageTarget;
+		//}
+		else {
+			leverageTarget-=adaptiveParameter*leverageTarget*distribution.nextDouble();
+		}
+	}
 	
 	/**
 	 * @return the pastSalesId
@@ -61,22 +76,6 @@ public class DynamicTradeOffFinance2_0 extends DynamicTradeOffFinance implements
 	 */
 	public void setDistribution(AbstractDelegatedDistribution distribution) {
 		this.distribution = distribution;
-	}
-
-	@Override
-	public void updateLeverageTarget (){
-		FinanceAgent borrower= (FinanceAgent)this.getAgent();
-		double pastProfits=borrower.getPassedValue(pastProfitId, 1); 
-		double pastSales=borrower.getPassedValue(StaticValues.LAG_NOMINALSALES, 1);
-		if (pastProfits/pastSales>threshold){
-			leverageTarget+=adaptiveParameter*leverageTarget*distribution.nextDouble();
-		}
-		//else if (returnOnLoans==averageInterestRate && borrower.getReferenceVariableForFinance()<thresholdRefVariable){
-			//leverageTarget=leverageTarget;
-		//}
-		else {
-			leverageTarget-=adaptiveParameter*leverageTarget*distribution.nextDouble();
-		}
 	}
 
 	/**

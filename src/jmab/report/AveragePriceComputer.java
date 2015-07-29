@@ -14,13 +14,12 @@
  */
 package jmab.report;
 
-import modellone.StaticValues;
-import net.sourceforge.jabm.Population;
-import net.sourceforge.jabm.agent.Agent;
 import jmab.agents.AbstractFirm;
 import jmab.goods.AbstractGood;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import net.sourceforge.jabm.Population;
+import net.sourceforge.jabm.agent.Agent;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -29,6 +28,7 @@ import jmab.simulations.MacroSimulation;
 public class AveragePriceComputer implements VariableComputer {
 	private int populationId; 
 	private int goodId;
+	private int salesId;
 
 	/* (non-Javadoc)
 	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
@@ -41,12 +41,12 @@ public class AveragePriceComputer implements VariableComputer {
 		double averagePrice=0;
 		for (Agent a:pop.getAgents()){
 			AbstractFirm firm= (AbstractFirm) a;
-			totalSales+=firm.getPassedValue(StaticValues.LAG_REALSALES, 0);
+			totalSales+=firm.getPassedValue(salesId, 0);
 		}
 		for (Agent a:pop.getAgents()){
 			AbstractFirm firm= (AbstractFirm) a;
 			AbstractGood good = (AbstractGood)firm.getItemStockMatrix(true, goodId);
-			averagePrice+=good.getPrice()*(firm.getPassedValue(StaticValues.LAG_REALSALES,0)/totalSales);
+			averagePrice+=good.getPrice()*(firm.getPassedValue(salesId,0)/totalSales);
 		}
 		return averagePrice;
 	}
@@ -77,6 +77,20 @@ public class AveragePriceComputer implements VariableComputer {
 	 */
 	public void setGoodId(int goodId) {
 		this.goodId = goodId;
+	}
+
+	/**
+	 * @return the salesId
+	 */
+	public int getSalesId() {
+		return salesId;
+	}
+
+	/**
+	 * @param salesId the salesId to set
+	 */
+	public void setSalesId(int salesId) {
+		this.salesId = salesId;
 	}
 	
 

@@ -23,7 +23,6 @@ import jmab.events.MicroMultiVariablesTicEvent;
 import jmab.events.MicroSimEvent;
 import jmab.events.SerializationTicEvent;
 import jmab.population.MacroPopulation;
-import modellone.StaticValues;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

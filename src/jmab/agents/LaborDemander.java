@@ -52,6 +52,8 @@ public interface LaborDemander extends MacroAgent {
 	 */
 	public double getWageBill();
 	
+	public void setLaborActive(boolean active);
+	
 	
 
 

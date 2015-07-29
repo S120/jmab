@@ -42,7 +42,7 @@ public interface LaborSupplier extends MacroAgent {
 	
 	public MacroAgent getEmployer();
 
-
+	public void setLaborActive(boolean active);
 	
 	
 

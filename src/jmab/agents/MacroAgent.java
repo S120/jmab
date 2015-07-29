@@ -22,6 +22,7 @@ import jmab.population.MacroPopulation;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.EventListener;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
+import net.sourceforge.jabm.strategy.Strategy;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -126,5 +127,7 @@ public interface MacroAgent extends Agent, EventListener{
 	 * @param agentId
 	 */
 	public void setAgentId(long agentId);
+	
+	public Strategy getStrategy(int strategyId);
 
 }

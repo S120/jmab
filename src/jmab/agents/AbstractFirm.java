@@ -22,7 +22,6 @@ import java.util.List;
 
 import jmab.goods.Item;
 import jmab.population.MacroPopulation;
-import modellone.StaticValues;
 import net.sourceforge.jabm.agent.Agent;
 
 /**
@@ -129,7 +128,7 @@ public abstract class AbstractFirm extends SimpleAbstractAgent implements LaborD
 	public void fireAgent(MacroAgent employee){
 		LaborSupplier emp = (LaborSupplier) employee;
 		emp.setEmployer(null);
-		employee.setActive(true, StaticValues.MKT_LABOR);//the fired workers is reactivated in the labor market
+		emp.setLaborActive(true);//the fired workers is reactivated in the labor market
 	}
 	
 	/* (non-Javadoc)
@@ -204,7 +203,7 @@ public abstract class AbstractFirm extends SimpleAbstractAgent implements LaborD
 				LiabilitySupplier payingSupplier = (LiabilitySupplier) payingItem.getLiabilityHolder();
 				payingSupplier.transfer(payingItem, payableStock, wage);
 			}else{
-				this.setActive(true, StaticValues.MKT_LABOR);
+				this.setLaborActive(true);
 				fireAgent(employee);
 				this.laborDemand+=1;
 			}

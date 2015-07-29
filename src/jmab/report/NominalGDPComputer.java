@@ -17,18 +17,14 @@ package jmab.report;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import jmab.agents.AbstractFirm;
 import jmab.agents.LaborDemander;
 import jmab.agents.LaborSupplier;
 import jmab.agents.MacroAgent;
 import jmab.goods.AbstractGood;
-import jmab.goods.CapitalGood;
-import jmab.goods.ConsumptionGood;
 import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
-import modellone.agents.CapitalFirm;
-import modellone.agents.ConsumptionFirm;
-import modellone.agents.Households;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -42,54 +38,70 @@ import net.sourceforge.jabm.agent.Agent;
  */
 public class NominalGDPComputer implements VariableComputer {
 	
-	private int [] componentsGDPIds; // the Ids of the good and services which enter in the GDP
-	private int [] householdsPopIds; //the different types of households
-	private int [] goodsSMIds; //the firm producing the goods and services
 	private int governmentPopulationId; // the id of the government
 	private LinkedHashMap<Integer,Integer> goodPassedValueMap;
-	
+	private int[] gdpPopulationIds;//These are all the populations ids of agents that have either bought or produced goods entering in GDP
+	private int[] gdpGoodsIds;//These are all the stock matrix ids of goods that enter in GDP
+	private int[] gdpGoodsAges;//These are all age limit of goods that enter in GDP
+	private int priceIndexProducerId;//This is the population id of agents that produce the goods entering in the CPI
+	private int priceGoodId;//This is the stock matrix if of the good entering in the CPI
+	private int realSaleId;//This is the id of the lagged value of real sales
 
-	/**
-	 * @return the componentsGDPIds
+	/* (non-Javadoc)
+	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
 	 */
-	public int[] getComponentsGDPIds() {
-		return componentsGDPIds;
-	}
+	@Override
+	public double computeVariable(MacroSimulation sim) {
+		MacroPopulation macroPop = (MacroPopulation) sim.getPopulation();
+		// calculate average price change
+		Population pop = macroPop.getPopulation(priceIndexProducerId);
+		double totalSales=0;
+		double averagePrice=0;
+		for (Agent a:pop.getAgents()){
+			AbstractFirm firm= (AbstractFirm) a;
+			totalSales+=firm.getPassedValue(realSaleId, 0);
+			AbstractGood good = (AbstractGood)firm.getItemStockMatrix(true, priceGoodId);
+			averagePrice+=good.getPrice()*firm.getPassedValue(realSaleId,0);
+		}
+		averagePrice=averagePrice/totalSales;
 
-	/**
-	 * @param componentsGDPIds the componentsGDPIds to set
-	 */
-	public void setComponentsGDPIds(int[] componentsGDPIds) {
-		this.componentsGDPIds = componentsGDPIds;
-	}
-
-	/**
-	 * @return the householdsPopIds
-	 */
-	public int[] getHouseholdsPopIds() {
-		return householdsPopIds;
-	}
-
-	/**
-	 * @param householdsPopIds the householdsPopIds to set
-	 */
-	public void setHouseholdsPopIds(int[] householdsPopIds) {
-		this.householdsPopIds = householdsPopIds;
-	}
-	
-
-	/**
-	 * @return the goodsSMIds
-	 */
-	public int[] getGoodsSMIds() {
-		return goodsSMIds;
-	}
-
-	/**
-	 * @param goodsSMIds the goodsSMIds to set
-	 */
-	public void setGoodsSMIds(int[] goodsSMIds) {
-		this.goodsSMIds = goodsSMIds;
+		// calculate nominal GDP
+		double gdpGoodsComponent=0;
+		double pastInventories=0;
+		double publicServantsWages=0;
+		double nominalGDP=0;
+		for(int popId:gdpPopulationIds){
+			pop = macroPop.getPopulation(popId);
+			//Population pop = macroPop.getPopulation(i); GET RID OF THIS?
+			for(Agent j:pop.getAgents()){
+				MacroAgent agent=(MacroAgent) j;
+				for(int k=0; k<gdpGoodsIds.length;k++){
+					List<Item> items= agent.getItemsStockMatrix(true, gdpGoodsIds[k]);
+					for(Item item:items){
+						if(item.getAge()<gdpGoodsAges[k]){
+							gdpGoodsComponent+=item.getValue();
+						}
+						AbstractGood good = (AbstractGood)item;
+						if(good.getProducer().getAgentId()==agent.getAgentId()){
+							int passedValueId = goodPassedValueMap.get(good.getSMId());
+							pastInventories+=agent.getPassedValue(passedValueId, 1);
+						}
+					}
+				}
+			}
+		}
+		gdpGoodsComponent-=pastInventories;
+		if(governmentPopulationId!=-1){
+			LaborDemander govt = (LaborDemander)macroPop.getPopulation(governmentPopulationId).getAgentList().get(0);
+			for(MacroAgent agent:govt.getEmployees()){
+				LaborSupplier publicServant = (LaborSupplier)agent;
+				publicServantsWages+=publicServant.getWage();
+			}
+			nominalGDP = gdpGoodsComponent+publicServantsWages;
+		}else
+			nominalGDP = gdpGoodsComponent;
+		return nominalGDP;
+		
 	}
 
 	/**
@@ -116,61 +128,93 @@ public class NominalGDPComputer implements VariableComputer {
 	/**
 	 * @param goodPassedValueMap the goodPassedValueMap to set
 	 */
-	public void setGoodPassedValueMap(LinkedHashMap<Integer, Integer> goodPassedValueMap) {
+	public void setGoodPassedValueMap(
+			LinkedHashMap<Integer, Integer> goodPassedValueMap) {
 		this.goodPassedValueMap = goodPassedValueMap;
 	}
 
-	/* (non-Javadoc)
-	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
+	/**
+	 * @return the gdpPopulationIds
 	 */
-	@Override
-	public double computeVariable(MacroSimulation sim) {
-		MacroPopulation macroPop = (MacroPopulation) sim.getPopulation();
-		double gdpGoodsComponent=0;
-		double pastInventories=0;
-		double publicServantsWages=0;
-		for(int i=0;i<macroPop.getSize();i++){
-			Population pop = macroPop.getPopulation(i);
-			for(Agent j:pop.getAgents()){
-				MacroAgent agent=(MacroAgent) j;
-				for (int h=0; h<componentsGDPIds.length; h++){
-					List <Item> items= agent.getItemsStockMatrix(true, componentsGDPIds[h]);
-					for (Item item:items){
-						if (agent instanceof Households &&item instanceof ConsumptionGood && item.getAge()==0){
-						//if (item.getAge()<=0){
-							gdpGoodsComponent+=item.getValue();
-						//}
-						}
-						else if (agent instanceof CapitalFirm && item instanceof CapitalGood && item.getAge()==0){
-							gdpGoodsComponent+=item.getValue();
-						}
-						else if (agent instanceof ConsumptionFirm && item instanceof CapitalGood && item.getAge()<0){
-							gdpGoodsComponent+=item.getValue();
-						}
-						else if (agent instanceof ConsumptionFirm && item instanceof ConsumptionGood && item.getAge()<0){
-							gdpGoodsComponent+=item.getValue();
-						}
-						for (int ind:goodsSMIds){
-							if (ind==item.getSMId()){
-								AbstractGood good = (AbstractGood)item;
-								if(good.getProducer().getAgentId()==agent.getAgentId()){
-									//int passedValueId = goodPassedValueMap.get(h);
-									int passedValueId = goodPassedValueMap.get(good.getSMId());
-									pastInventories+=agent.getPassedValue(passedValueId, 1);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		gdpGoodsComponent-=pastInventories;
-		LaborDemander govt = (LaborDemander)macroPop.getPopulation(governmentPopulationId).getAgentList().get(0);
-		for(MacroAgent agent:govt.getEmployees()){
-			LaborSupplier publicServant = (LaborSupplier)agent;
-			publicServantsWages+=publicServant.getWage();
-		}
-		return gdpGoodsComponent+publicServantsWages;
-		
+	public int[] getGdpPopulationIds() {
+		return gdpPopulationIds;
 	}
+
+	/**
+	 * @param gdpPopulationIds the gdpPopulationIds to set
+	 */
+	public void setGdpPopulationIds(int[] gdpPopulationIds) {
+		this.gdpPopulationIds = gdpPopulationIds;
+	}
+
+	/**
+	 * @return the gdpGoodsIds
+	 */
+	public int[] getGdpGoodsIds() {
+		return gdpGoodsIds;
+	}
+
+	/**
+	 * @param gdpGoodsIds the gdpGoodsIds to set
+	 */
+	public void setGdpGoodsIds(int[] gdpGoodsIds) {
+		this.gdpGoodsIds = gdpGoodsIds;
+	}
+
+	/**
+	 * @return the gdpGoodsAges
+	 */
+	public int[] getGdpGoodsAges() {
+		return gdpGoodsAges;
+	}
+
+	/**
+	 * @param gdpGoodsAges the gdpGoodsAges to set
+	 */
+	public void setGdpGoodsAges(int[] gdpGoodsAges) {
+		this.gdpGoodsAges = gdpGoodsAges;
+	}
+
+	/**
+	 * @return the priceIndexProducerId
+	 */
+	public int getPriceIndexProducerId() {
+		return priceIndexProducerId;
+	}
+
+	/**
+	 * @param priceIndexProducerId the priceIndexProducerId to set
+	 */
+	public void setPriceIndexProducerId(int priceIndexProducerId) {
+		this.priceIndexProducerId = priceIndexProducerId;
+	}
+
+	/**
+	 * @return the priceGoodId
+	 */
+	public int getPriceGoodId() {
+		return priceGoodId;
+	}
+
+	/**
+	 * @param priceGoodId the priceGoodId to set
+	 */
+	public void setPriceGoodId(int priceGoodId) {
+		this.priceGoodId = priceGoodId;
+	}
+
+	/**
+	 * @return the realSaleId
+	 */
+	public int getRealSaleId() {
+		return realSaleId;
+	}
+
+	/**
+	 * @param realSaleId the realSaleId to set
+	 */
+	public void setRealSaleId(int realSaleId) {
+		this.realSaleId = realSaleId;
+	}
+	
 }

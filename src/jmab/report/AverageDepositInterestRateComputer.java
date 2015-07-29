@@ -43,7 +43,7 @@ public class AverageDepositInterestRateComputer implements VariableComputer {
 		double totDeposits=0;
 		for (Agent i:banks.getAgents()){
 			MacroAgent bank= (MacroAgent) i;
-			totDeposits+=bank.getNumericBalanceSheet()[1][modellone.StaticValues.SM_DEP];
+			totDeposits+=bank.getNumericBalanceSheet()[1][stockId];
 		}
 		for (Agent i:banks.getAgents()){
 			MacroAgent bank= (MacroAgent) i;

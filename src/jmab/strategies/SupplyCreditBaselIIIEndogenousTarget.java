@@ -21,7 +21,6 @@ import jmab.agents.CreditSupplier;
 import jmab.goods.Item;
 import jmab.goods.Loan;
 import jmab.population.MacroPopulation;
-import modellone.StaticValues;
 import net.sourceforge.jabm.distribution.AbstractDelegatedDistribution;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -47,15 +46,16 @@ SupplyCreditStrategy {
 	private double threshold;
 	private double adaptiveParameter;
 	private AbstractDelegatedDistribution distribution;
+	private int lagNonPerformingLoanId;
 
 	public void updateCARTarget (){
 		CreditSupplier supplier=(CreditSupplier) this.getAgent();
 		double nonPerformingLoans=0;
 		double outstandingLoans=0;
 		for (int i=1; i<=nbPeriods; i++){
-			nonPerformingLoans+=supplier.getPassedValue(StaticValues.LAG_NONPERFORMINGLOANS, i);
+			nonPerformingLoans+=supplier.getPassedValue(lagNonPerformingLoanId, i);
 		}
-		List<Item> loans = supplier.getItemsStockMatrix(true, StaticValues.SM_LOAN);
+		List<Item> loans = supplier.getItemsStockMatrix(true, loansId);
 		for (Item loan:loans){
 			outstandingLoans+=loan.getValue();
 		}
@@ -344,15 +344,30 @@ SupplyCreditStrategy {
 		this.assetsWeights = assetsWeights;
 	}
 	
+	
+	/**
+	 * @return the lagNonPerformingLoanId
+	 */
+	public int getLagNonPerformingLoanId() {
+		return lagNonPerformingLoanId;
+	}
+
+	/**
+	 * @param lagNonPerformingLoanId the lagNonPerformingLoanId to set
+	 */
+	public void setLagNonPerformingLoanId(int lagNonPerformingLoanId) {
+		this.lagNonPerformingLoanId = lagNonPerformingLoanId;
+	}
+
 	/**
 	 * Generate the byte array structure of the strategy. The structure is as follow:
 	 * [mandatoryCAR][targetCAR][threshold][adaptiveParameter][depositsExpectationsId][depositsId][loansId][nbPeriods]
-	 * [nbAssets][assetsIds][assetsWeights][nbCapital][capitalIds][capitalWeights]
+	 * [lagNonPerformingLoanId][nbAssets][assetsIds][assetsWeights][nbCapital][capitalIds][capitalWeights]
 	 * @return the byte array content
 	 */
 	@Override
 	public byte[] getBytes() {
-		ByteBuffer buf = ByteBuffer.allocate(56+12*(this.assetsIds.length+this.capitalsWeights.length));
+		ByteBuffer buf = ByteBuffer.allocate(60+12*(this.assetsIds.length+this.capitalsWeights.length));
 		buf.putDouble(this.mandatoryCAR);
 		buf.putDouble(this.targetCAR);
 		buf.putDouble(this.threshold);
@@ -361,6 +376,7 @@ SupplyCreditStrategy {
 		buf.putInt(this.depositsId);
 		buf.putInt(this.loansId);
 		buf.putInt(this.nbPeriods);
+		buf.putInt(this.lagNonPerformingLoanId);
 		buf.putInt(this.assetsIds.length);
 		for(int id:assetsIds)
 			buf.putInt(id);
@@ -378,7 +394,7 @@ SupplyCreditStrategy {
 	/**
 	 * Populates the strategy from the byte array content. The structure should be as follows:
 	 * [mandatoryCAR][targetCAR][threshold][adaptiveParameter][depositsExpectationsId][depositsId][loansId][nbPeriods]
-	 * [nbAssets][assetsIds][assetsWeights][nbCapital][capitalIds][capitalWeights]
+	 * [lagNonPerformingLoanId][nbAssets][assetsIds][assetsWeights][nbCapital][capitalIds][capitalWeights]
 	 * @param content the byte array containing the structure of the strategy
 	 * @param pop the Macro Population of agents
 	 */
@@ -393,6 +409,7 @@ SupplyCreditStrategy {
 		this.depositsId = buf.getInt();
 		this.loansId = buf.getInt();
 		this.nbPeriods = buf.getInt();
+		this.lagNonPerformingLoanId = buf.getInt();
 		int nbAssets = buf.getInt();
 		assetsIds=new int[nbAssets];
 		assetsWeights = new double[nbAssets];

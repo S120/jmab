@@ -20,7 +20,6 @@ import java.util.TreeMap;
 import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
-import modellone.StaticValues;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -30,7 +29,9 @@ import net.sourceforge.jabm.agent.Agent;
  */
 public class MicroBanksProfitsComputer extends AbstractMicroComputer implements
 		MicroMultipleVariablesComputer {
+	
 	private int banksId;
+	private int netWelthLagId;
 
 	/* (non-Javadoc)
 	 * @see jmab.report.MicroMultipleVariablesComputer#computeVariables(jmab.simulations.MacroSimulation)
@@ -43,7 +44,7 @@ public class MicroBanksProfitsComputer extends AbstractMicroComputer implements
 		for (Agent i:pop.getAgents()){
 			MacroAgent bank= (MacroAgent) i;
 			if (!bank.isDead()){
-				result.put(bank.getAgentId(), (bank.getNetWealth()-bank.getPassedValue(StaticValues.LAG_NETWEALTH, 1)));
+				result.put(bank.getAgentId(), (bank.getNetWealth()-bank.getPassedValue(this.netWelthLagId, 1)));
 			}
 			else{
 				result.put(bank.getAgentId(), Double.NaN);

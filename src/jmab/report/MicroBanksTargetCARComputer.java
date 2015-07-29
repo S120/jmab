@@ -17,11 +17,10 @@ package jmab.report;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
 import jmab.strategies.SupplyCreditAdaptiveCARTarget;
-import modellone.StaticValues;
-import modellone.agents.Bank;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -33,26 +32,7 @@ public class MicroBanksTargetCARComputer extends AbstractMicroComputer implement
 		MicroMultipleVariablesComputer {
 	
 	private int banksId;
-	
-
-
-	/**
-	 * @return the banksId
-	 */
-	public int getBanksId() {
-		return banksId;
-	}
-
-
-
-	/**
-	 * @param banksId the banksId to set
-	 */
-	public void setBanksId(int banksId) {
-		this.banksId = banksId;
-	}
-
-
+	private int strategyId;
 
 	/* (non-Javadoc)
 	 * @see jmab.report.MicroMultipleVariablesComputer#computeVariables(jmab.simulations.MacroSimulation)
@@ -63,9 +43,9 @@ public class MicroBanksTargetCARComputer extends AbstractMicroComputer implement
 		Population pop = macroPop.getPopulation(banksId);
 		TreeMap<Long,Double> result=new TreeMap<Long,Double>();
 		for (Agent i:pop.getAgents()){
-			Bank bank= (Bank) i;
+			MacroAgent bank= (MacroAgent) i;
 			if (!bank.isDead()){
-				SupplyCreditAdaptiveCARTarget strategy= (SupplyCreditAdaptiveCARTarget) bank.getStrategy(StaticValues.STRATEGY_CREDITSUPPLY);
+				SupplyCreditAdaptiveCARTarget strategy= (SupplyCreditAdaptiveCARTarget) bank.getStrategy(this.strategyId);
 				double targetCar= strategy.getTargetCAR();
 				result.put(bank.getAgentId(), targetCar);
 			}
@@ -74,6 +54,34 @@ public class MicroBanksTargetCARComputer extends AbstractMicroComputer implement
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * @return the banksId
+	 */
+	public int getBanksId() {
+		return banksId;
+	}
+
+	/**
+	 * @param banksId the banksId to set
+	 */
+	public void setBanksId(int banksId) {
+		this.banksId = banksId;
+	}
+
+	/**
+	 * @return the strategyId
+	 */
+	public int getStrategyId() {
+		return strategyId;
+	}
+
+	/**
+	 * @param strategyId the strategyId to set
+	 */
+	public void setStrategyId(int strategyId) {
+		this.strategyId = strategyId;
 	}
 
 }

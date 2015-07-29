@@ -51,5 +51,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/bsh-2.0b4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pf-joi.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pf.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jabm"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

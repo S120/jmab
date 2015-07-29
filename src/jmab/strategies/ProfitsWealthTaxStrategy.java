@@ -16,9 +16,9 @@ package jmab.strategies;
 
 import java.nio.ByteBuffer;
 
+import jmab.agents.AbstractBank;
 import jmab.agents.ProfitsTaxPayer;
 import jmab.population.MacroPopulation;
-import modellone.agents.Bank;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -40,7 +40,7 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 		ProfitsTaxPayer taxPayer = (ProfitsTaxPayer)this.getAgent();
 		double profits = taxPayer.getPreTaxProfits();
 		double wealth=taxPayer.getNetWealth();
-		if (taxPayer instanceof Bank){ 
+		if (taxPayer instanceof AbstractBank){ 
 			return Math.max(wealthTaxRate*wealth+profitTaxRate*profits, 0);
 		}
 		else{

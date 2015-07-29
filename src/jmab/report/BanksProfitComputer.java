@@ -17,7 +17,6 @@ package jmab.report;
 import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
-import modellone.StaticValues;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -26,7 +25,9 @@ import net.sourceforge.jabm.agent.Agent;
  *
  */
 public class BanksProfitComputer implements VariableComputer {
-	int populationId;
+	
+	private int populationId;
+	private int netWelthLagId;
 
 	/* (non-Javadoc)
 	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
@@ -41,10 +42,39 @@ public class BanksProfitComputer implements VariableComputer {
 			MacroAgent agent= (MacroAgent) i;
 			nW=agent.getNetWealth();
 			if (!agent.isDead()){
-			profits += nW-agent.getPassedValue(StaticValues.LAG_NETWEALTH, 1);}
+			profits += nW-agent.getPassedValue(this.netWelthLagId, 1);}
 			
 		}
 		return profits;
 	}
 
+	/**
+	 * @return the populationId
+	 */
+	public int getPopulationId() {
+		return populationId;
+	}
+
+	/**
+	 * @param populationId the populationId to set
+	 */
+	public void setPopulationId(int populationId) {
+		this.populationId = populationId;
+	}
+
+	/**
+	 * @return the netWelthLagId
+	 */
+	public int getNetWelthLagId() {
+		return netWelthLagId;
+	}
+
+	/**
+	 * @param netWelthLagId the netWelthLagId to set
+	 */
+	public void setNetWelthLagId(int netWelthLagId) {
+		this.netWelthLagId = netWelthLagId;
+	}
+
+	
 }
