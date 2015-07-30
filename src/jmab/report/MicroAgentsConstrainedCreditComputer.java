@@ -14,12 +14,10 @@
  */
 package jmab.report;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import jmab.agents.CreditDemander;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
 import net.sourceforge.jabm.Population;
@@ -29,7 +27,7 @@ import net.sourceforge.jabm.agent.Agent;
  * @author Alessandro Caiani and Antoine Godin
  *
  */
-public class MicroFirmsCreditObtainedComputer extends AbstractMicroComputer implements MicroMultipleVariablesComputer {
+public class MicroAgentsConstrainedCreditComputer extends AbstractMicroComputer implements MicroMultipleVariablesComputer {
 	
 	private int populationId;
 	private int idLoanSM;
@@ -45,18 +43,8 @@ public class MicroFirmsCreditObtainedComputer extends AbstractMicroComputer impl
 		for (Agent i:pop.getAgents()){
 			CreditDemander agent= (CreditDemander) i;
 			if (!agent.isDead()){
-				List<Item> loans= agent.getItemsStockMatrix(false, idLoanSM);
-				double newLoans=0;
-				if(loans.size()!=0){
-					for (Item loan:loans){
-						if (loan.getAge()==0){
-							newLoans+=loan.getValue();
-						}
-					}	
-				}
-				result.put(agent.getAgentId(), newLoans);
+				result.put(agent.getAgentId(), agent.getLoanRequirement(this.idLoanSM));
 			}
-				
 			else{
 				result.put(agent.getAgentId(), Double.NaN);
 			}

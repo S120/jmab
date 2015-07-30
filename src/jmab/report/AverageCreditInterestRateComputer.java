@@ -29,8 +29,10 @@ import net.sourceforge.jabm.agent.Agent;
  * This computer computes the (weighted) average interest rate on newly created loans.
  */
 public class AverageCreditInterestRateComputer implements VariableComputer {
+	
 	private int banksId;
 	private int stockId;
+	private boolean demand;
 
 	/* (non-Javadoc)
 	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
@@ -43,25 +45,20 @@ public class AverageCreditInterestRateComputer implements VariableComputer {
 		double newLoans=0;
 		for (Agent i:banks.getAgents()){
 			MacroAgent bank= (MacroAgent) i;
-			List<Item> stocks=bank.getItemsStockMatrix(true, stockId);
+			List<Item> stocks;
+			if(demand)
+				stocks=bank.getItemsStockMatrix(false, stockId);
+			else
+				stocks=bank.getItemsStockMatrix(true, stockId);
 			for(Item h:stocks){
 				Loan loan= (Loan) h;
 				if (loan.getAge()==0){
-					newLoans+=loan.getValue();	
+					newLoans+=loan.getValue();
+					avInterests+=loan.getValue()*loan.getInterestRate();	
 				}		
 			}
 		}
-		for (Agent i:banks.getAgents()){
-			MacroAgent bank= (MacroAgent) i;
-			List<Item> loans=bank.getItemsStockMatrix(true, stockId);
-			for(Item h:loans){
-				Loan loan= (Loan) h;
-				if (loan.getAge()==0){
-					avInterests+=(loan.getValue()/newLoans)*loan.getInterestRate();	
-				}		
-			}
-		}
-		return avInterests;
+		return avInterests/newLoans;
 	}
 
 	/**
@@ -92,9 +89,18 @@ public class AverageCreditInterestRateComputer implements VariableComputer {
 		this.stockId = stockId;
 	}
 
+	/**
+	 * @return the demand
+	 */
+	public boolean isDemand() {
+		return demand;
+	}
 
-	
-	
-	
+	/**
+	 * @param demand the demand to set
+	 */
+	public void setDemand(boolean demand) {
+		this.demand = demand;
+	}
 
 }
