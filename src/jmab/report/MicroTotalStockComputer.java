@@ -60,4 +60,28 @@ MicroMultipleVariablesComputer {
 		return result;
 	}
 
+	public int getSmId() {
+		return smId;
+	}
+
+	public void setSmId(int smId) {
+		this.smId = smId;
+	}
+
+	public int getPopulationId() {
+		return populationId;
+	}
+
+	public void setPopulationId(int populationId) {
+		this.populationId = populationId;
+	}
+
+	public boolean isLiabilities() {
+		return liabilities;
+	}
+
+	public void setLiabilities(boolean liabilities) {
+		this.liabilities = liabilities;
+	}
+
 }
