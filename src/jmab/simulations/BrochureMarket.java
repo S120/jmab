@@ -15,6 +15,7 @@
 package jmab.simulations;
 
 import jmab.population.MacroPopulation;
+import jmab.population.MarketPopulation;
 
 
 /**
@@ -52,6 +53,14 @@ public class BrochureMarket extends AbstractTwoStepMarketSimulation
 	@Override
 	public byte[] getBytes() {
 		return new byte[1];// TODO
+	}
+
+	/* (non-Javadoc)
+	 * @see jmab.simulations.MarketSimulation#getPopulation()
+	 */
+	@Override
+	public MarketPopulation getPopulation() {
+		return population;
 	}
 
 }

@@ -146,7 +146,7 @@ public abstract class AbstractTwoStepMarketSimulation implements MarketSimulatio
 	/**
 	 * @return the population
 	 */
-	public MarketPopulation getPopulation() {
+	public MarketPopulation getPopulationInit() {
 		return population;
 	}
 

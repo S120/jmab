@@ -46,6 +46,9 @@ public interface MarketSimulation{
 	public void populateFromBytes(byte[] content, MacroPopulation pop);
 	
 	public byte[] getBytes();
-	
+
+	/**
+	 * @return
+	 */
 	public MarketPopulation getPopulation();
 }

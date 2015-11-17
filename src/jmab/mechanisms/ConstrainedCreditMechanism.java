@@ -31,56 +31,58 @@ import jmab.simulations.MarketSimulation;
  */
 //with this mechanism borrowers' demand for credit can be constrained by lenders' supply
 public class ConstrainedCreditMechanism extends AbstractCreditMechanism implements
-		Mechanism {
+Mechanism {
 
 	/**
 	 * @param scheduler
 	 * @param market
 	 */
 	public ConstrainedCreditMechanism(){}
-	
+
 	public ConstrainedCreditMechanism(MarketSimulation market) {
 		super(market);
 	}
-	
-/**
- * This methods executes the credit transaction and ensures the SF consistency:
- * a)create the new object "Loan" and add it to the SM of the CreditDemander/CreditSupplier as a liability/asset
- * b)it update the deposits: b.1) if the CreditDemander has no deposit at the lending bank it create a new one and it add it 
- * to the SM of the borrower (asset)/CreditSupplier(liability). b.2) else, if the borrower has already a depoist at the lending bank
- * it add the value of the loan to the deposit.
- * The actual value of the loan is the minimum between asked and supplied.
- * 
- */
+
+	/**
+	 * This methods executes the credit transaction and ensures the SF consistency:
+	 * a)create the new object "Loan" and add it to the SM of the CreditDemander/CreditSupplier as a liability/asset
+	 * b)it update the deposits: b.1) if the CreditDemander has no deposit at the lending bank it create a new one and it add it 
+	 * to the SM of the borrower (asset)/CreditSupplier(liability). b.2) else, if the borrower has already a depoist at the lending bank
+	 * it add the value of the loan to the deposit.
+	 * The actual value of the loan is the minimum between asked and supplied.
+	 * 
+	 */
 	private void execute(CreditDemander creditDemander, CreditSupplier creditSupplier, int idMarket) {
 		double required=creditDemander.getLoanRequirement(this.idLoansSM); 
 		int length=creditDemander.decideLoanLength(this.idLoansSM);
 		int amortization=creditDemander.decideLoanAmortizationType(this.idLoansSM);
 		double totalLoansSupply=creditSupplier.getTotalLoansSupply(this.idLoansSM);
 		double offered=creditSupplier.getLoanSupply(this.idLoansSM, creditDemander,required);
-		double amount=Math.min(required, Math.min(offered, totalLoansSupply));
-		double interestRate=creditSupplier.getInterestRate(this.idLoansSM, creditDemander, amount, length);
-		Loan loan = new Loan(amount, creditSupplier, creditDemander, interestRate, 0, amortization, length);
-		creditSupplier.addItemStockMatrix(loan, true, this.idLoansSM);
-		creditDemander.addItemStockMatrix(loan, false, this.idLoansSM);
-		Deposit deposit = (Deposit)creditDemander.getItemStockMatrix(true, this.idDepositsSM, creditSupplier);
-		if(deposit==null){
-			deposit=new Deposit(amount, creditDemander,creditSupplier,creditSupplier.getDepositInterestRate(creditDemander, amount));
-			creditSupplier.addItemStockMatrix(deposit, false, idDepositsSM);
-			creditDemander.addItemStockMatrix(deposit, true, idDepositsSM);
-		}else{
-			deposit.setValue(deposit.getValue()+amount);
+		double amount=Math.max(0, Math.min(required, Math.min(offered, totalLoansSupply)));
+		if(amount>0){
+			double interestRate=creditSupplier.getInterestRate(this.idLoansSM, creditDemander, amount, length);
+			Loan loan = new Loan(amount, creditSupplier, creditDemander, interestRate, 0, amortization, length);
+			creditSupplier.addItemStockMatrix(loan, true, this.idLoansSM);
+			creditDemander.addItemStockMatrix(loan, false, this.idLoansSM);
+			Deposit deposit = (Deposit)creditDemander.getItemStockMatrix(true, this.idDepositsSM, creditSupplier);
+			if(deposit==null){
+				deposit=new Deposit(amount, creditDemander,creditSupplier,creditSupplier.getDepositInterestRate(creditDemander, amount));
+				creditSupplier.addItemStockMatrix(deposit, false, idDepositsSM);
+				creditDemander.addItemStockMatrix(deposit, true, idDepositsSM);
+			}else{
+				deposit.setValue(deposit.getValue()+amount);
+			}
+			creditDemander.setLoanRequirement(this.idLoansSM,required-amount);
+			if(Math.min(required, amount)==required){
+				creditDemander.setActive(false, idMarket);
+			}
+			creditSupplier.setTotalLoansSupply(this.idLoansSM,(creditSupplier.getTotalLoansSupply(this.idLoansSM)-amount));
+			if (creditSupplier.getTotalLoansSupply(this.idLoansSM)==0){
+				creditSupplier.setActive(false, idMarket);
+			} //TODO
 		}
-		creditDemander.setLoanRequirement(this.idLoansSM,required-amount);
-		if(Math.min(required, amount)==required){
-			creditDemander.setActive(false, idMarket);
-		}
-		creditSupplier.setTotalLoansSupply(this.idLoansSM,(creditSupplier.getTotalLoansSupply(this.idLoansSM)-amount));
-		if (creditSupplier.getTotalLoansSupply(this.idLoansSM)==0){
-			creditSupplier.setActive(false, idMarket);
-		} //TODO
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see jmab.mechanisms.Mechanism#execute(net.sourceforge.jabm.agent.Agent, net.sourceforge.jabm.agent.Agent, int)
 	 */
@@ -90,7 +92,7 @@ public class ConstrainedCreditMechanism extends AbstractCreditMechanism implemen
 	 */
 	@Override
 	public void execute(MacroAgent GoodDemander, MacroAgent GoodSupplier, int idMarket) {
-			execute((CreditDemander) GoodDemander, (CreditSupplier) GoodSupplier, idMarket);
+		execute((CreditDemander) GoodDemander, (CreditSupplier) GoodSupplier, idMarket);
 
 	}
 
@@ -100,6 +102,6 @@ public class ConstrainedCreditMechanism extends AbstractCreditMechanism implemen
 	@Override
 	public void execute(MacroAgent buyer, List<MacroAgent> seller, int idMarket) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

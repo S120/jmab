@@ -15,7 +15,6 @@
 package jmab.mixing;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jmab.agents.MacroAgent;
 import jmab.population.MarketPopulation;
@@ -87,6 +86,16 @@ public class DynamicRandomRobinBuyerMixer extends AbstractMarketMixer implements
 	 */
 	public void setPrng(RandomEngine prng) {
 		this.prng = prng;
+	}
+	
+	@Override
+	public boolean closed(MarketPopulation population, MacroSimulation simulation) {
+		boolean closed = super.closed(population, simulation);
+		if(closed){
+			population.getBuyers().setAgents(new ArrayList<Agent>());
+			population.getSellers().setAgents(new ArrayList<Agent>());
+		}
+		return closed;
 	}
 
 }

@@ -57,6 +57,7 @@ public class BaselIIIReserveRequirementsBLR extends AbstractStrategy implements
 			}
 		}
 
+		System.out.println(bank.getAgentId()+", "+depositsValue+", "+reservesValue);
 		return liquidityRatio*depositsValue-reservesValue;
 	}
 

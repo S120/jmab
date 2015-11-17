@@ -67,7 +67,7 @@ public class SimpleMarketSimulation implements
 		this.sellersId=sellersId;
 		this.buyersId=buyersId;
 		this.transaction=transaction;
-		this.population = getPopulation();
+		this.population = getPopulationInit();
 	}
 	
 	
@@ -161,7 +161,7 @@ public class SimpleMarketSimulation implements
 	
 	public void setSimulation(MacroSimulation simulation) {
 		this.simulation = simulation;
-		this.population = getPopulation();
+		this.population = getPopulationInit();
 	}
 	
 	/* (non-Javadoc)
@@ -223,7 +223,7 @@ public class SimpleMarketSimulation implements
 	/**
 	 * @return the population
 	 */
-	public MarketPopulation getPopulation() {
+	public MarketPopulation getPopulationInit() {
 		MarketPopulation population = new MarketPopulation();
 		MacroPopulation macroPop = (MacroPopulation)simulation.getPopulation();
 		ArrayList<Agent> buyers = new ArrayList<Agent>();
@@ -336,5 +336,13 @@ public class SimpleMarketSimulation implements
 	@Override
 	public byte[] getBytes() {
 		return new byte[1] ;// TODO 
+	}
+
+	/* (non-Javadoc)
+	 * @see jmab.simulations.MarketSimulation#getPopulation()
+	 */
+	@Override
+	public MarketPopulation getPopulation() {
+		return population;
 	}
 }
