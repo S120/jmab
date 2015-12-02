@@ -147,9 +147,9 @@ public class SimpleWeigthedExpectation implements Expectation {
 	 */
 	@Override
 	public void addObservation(double[] observation) {
-		for(int i=0;i<nbPeriod-1;i++){
+		for(int i=1;i<nbPeriod;i++){
 			for(int j=0;j<nbVariables+1;j++){
-				this.passedValues[i][j]=this.passedValues[i+1][j];
+				this.passedValues[nbPeriod-i][j]=this.passedValues[nbPeriod-i-1][j];
 			}
 		}
 		for(int j=0;j<nbVariables;j++){
