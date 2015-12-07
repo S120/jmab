@@ -156,7 +156,7 @@ public class AnchoringAndAdjustmentExpectation implements Expectation {
 	@Override
 	public void updateExpectation() {
 		double average=0;
-		for(int i=0; i<nbPeriod-1;i++){
+		for(int i=0; i<nbPeriod;i++){
 			for(int j=0;j<nbVariables;j++){
 				average+=weights[i][j]*passedValues[i][j];
 			}
