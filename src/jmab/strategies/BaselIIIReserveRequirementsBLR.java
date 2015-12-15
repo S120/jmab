@@ -17,7 +17,7 @@ package jmab.strategies;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import jmab.agents.MacroAgent;
+import jmab.agents.BaselIIIAgent;
 import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
@@ -32,7 +32,6 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
 public class BaselIIIReserveRequirementsBLR extends AbstractStrategy implements
 		FinanceStrategy {
 
-	private double liquidityRatio;
 	private int[] depositIds; //in the simplest case cash, reserves to which we must add the net wealth
 	private int[] reserveIds; //in the simplest case only loans (bonds, reserves and cash are weighted 0)
 	
@@ -41,7 +40,7 @@ public class BaselIIIReserveRequirementsBLR extends AbstractStrategy implements
 	 */
 	@Override
 	public double computeCreditDemand(double expectedFinancialRequirement) {
-		MacroAgent bank = (MacroAgent)this.agent; 
+		BaselIIIAgent bank = (BaselIIIAgent)this.agent; 
 		double depositsValue=0;
 		for(int i=0;i<depositIds.length;i++){
 			List<Item> deposits = bank.getItemsStockMatrix(false, depositIds[i]);
@@ -58,23 +57,11 @@ public class BaselIIIReserveRequirementsBLR extends AbstractStrategy implements
 		}
 
 		System.out.println(bank.getAgentId()+", "+depositsValue+", "+reservesValue);
+		double liquidityRatio = bank.getTargetedLiquidityRatio();
 		return liquidityRatio*depositsValue-reservesValue;
 	}
 
-	/**
-	 * @return the liquidityRatio
-	 */
-	public double getLiquidityRatio() {
-		return liquidityRatio;
-	}
-
-	/**
-	 * @param liquidityRatio the liquidityRatio to set
-	 */
-	public void setLiquidityRatio(double liquidityRatio) {
-		this.liquidityRatio = liquidityRatio;
-	}
-
+	
 	/**
 	 * @return the depositIds
 	 */
@@ -110,8 +97,7 @@ public class BaselIIIReserveRequirementsBLR extends AbstractStrategy implements
 	 */
 	@Override
 	public byte[] getBytes() {
-		ByteBuffer buf = ByteBuffer.allocate(16+4*(depositIds.length+reserveIds.length));
-		buf.putDouble(this.liquidityRatio);
+		ByteBuffer buf = ByteBuffer.allocate(8+4*(depositIds.length+reserveIds.length));
 		buf.putInt(this.depositIds.length);
 		for(int id:depositIds)
 			buf.putInt(id);
@@ -130,7 +116,6 @@ public class BaselIIIReserveRequirementsBLR extends AbstractStrategy implements
 	 */	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {
 		ByteBuffer buf = ByteBuffer.wrap(content);
-		this.liquidityRatio= buf.getDouble();
 		int nbDeposits = buf.getInt();
 		depositIds=new int[nbDeposits];
 		for(int i = 0 ; i < nbDeposits ; i++)

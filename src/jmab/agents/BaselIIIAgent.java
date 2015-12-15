@@ -21,5 +21,7 @@ package jmab.agents;
 public interface BaselIIIAgent extends MacroAgent {
 
 	//public double[] getDesiredAssets();
+	public double getTargetedLiquidityRatio();
+	public double getTargetedCapitalAdequacyRatio();
 	
 }
