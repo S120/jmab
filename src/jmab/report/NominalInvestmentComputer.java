@@ -17,9 +17,9 @@ package jmab.report;
 import java.util.List;
 
 import jmab.agents.MacroAgent;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -31,7 +31,7 @@ import net.sourceforge.jabm.agent.Agent;
  * Then we add public workers' wages.
  * 
  */
-public class NominalInvestmentComputer implements VariableComputer {
+public class NominalInvestmentComputer implements MacroVariableComputer {
 	
 	private int [] capitalSMIds; // the Ids of the good and services which enter in the GDP
 	private int [] investorsPopIds; //the different types of households

@@ -20,10 +20,10 @@ import jmab.agents.DepositDemander;
 import jmab.agents.DepositSupplier;
 import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
-import jmab.goods.Cash;
-import jmab.goods.Deposit;
-import jmab.goods.Item;
 import jmab.simulations.MarketSimulation;
+import jmab.stockmatrix.Cash;
+import jmab.stockmatrix.Deposit;
+import jmab.stockmatrix.Item;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

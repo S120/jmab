@@ -361,7 +361,7 @@ MacroSimulation {
 			byte[] valBytes = new byte[valSize];
 			buf.get(valBytes);
 			PassedValues val = this.passedValues.get(key);
-			val.populateExpectation(valBytes);
+			val.populatePassedValues(valBytes);
 		}
 	}
 

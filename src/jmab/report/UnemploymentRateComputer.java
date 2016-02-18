@@ -24,7 +24,7 @@ import net.sourceforge.jabm.agent.Agent;
  * @author Alessandro Caiani and Antoine Godin
  * This computer computes the aggregate unemployment rate.
  */
-public class UnemploymentRateComputer implements VariableComputer {
+public class UnemploymentRateComputer implements MacroVariableComputer {
 
 	private int[] householdPopIds;
 	

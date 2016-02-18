@@ -14,14 +14,14 @@
  */
 package jmab.agents;
 
-import jmab.goods.Item;
+import jmab.stockmatrix.Item;
 
 
 /**
  * @author Alessandro Caiani and Antoine Godin
  * Interface to be implemented if an agent interacts on the good market as a good supplier
  */
-public interface GoodSupplier extends GoodAgent{
+public interface GoodSupplier extends MacroAgent{
 	
 	/**
 	 * Computes the price of the good for the good demander and the quantity demanded

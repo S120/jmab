@@ -17,10 +17,10 @@ package jmab.report;
 import java.util.List;
 
 import jmab.agents.MacroAgent;
-import jmab.goods.Item;
-import jmab.goods.Loan;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.Item;
+import jmab.stockmatrix.Loan;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -28,7 +28,7 @@ import net.sourceforge.jabm.agent.Agent;
  * @author Alessandro Caiani and Antoine Godin
  * This computer computes the (weighted) average interest rate on newly created loans.
  */
-public class AverageCreditInterestRateComputer implements VariableComputer {
+public class AverageCreditInterestRateComputer implements MacroVariableComputer {
 	
 	private int populationId;
 	private int stockId;

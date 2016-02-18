@@ -20,7 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import jmab.report.VariableComputer;
+import jmab.report.MacroVariableComputer;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -30,7 +30,7 @@ import jmab.report.VariableComputer;
 public class SerializationTicEvent extends MacroTicEvent {
 
 	/**
-	 * @param computer the specific {@link VariableComputer} to be used in order to compute the value of
+	 * @param computer the specific {@link MacroVariableComputer} to be used in order to compute the value of
 	 * the variable to be reported.
 	 * @param variableName the name of the variable to be reported.
 	 * VariableId the Id of the variable to be computed.

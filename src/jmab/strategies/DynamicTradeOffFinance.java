@@ -20,9 +20,9 @@ import java.util.Random;
 
 import jmab.agents.FinanceAgent;
 import jmab.agents.MacroAgent;
-import jmab.goods.Item;
-import jmab.goods.Loan;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Item;
+import jmab.stockmatrix.Loan;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**

@@ -14,7 +14,7 @@
  */
 package jmab.events;
 
-import jmab.report.VariableComputer;
+import jmab.report.MacroVariableComputer;
 import jmab.simulations.MacroSimulation;
 
 /**
@@ -25,12 +25,12 @@ import jmab.simulations.MacroSimulation;
 public class MacroVariableTicEvent extends MacroTicEvent {
 
 	/**
-	 * @param computer the specific {@link VariableComputer} to be used in order to compute the value of
+	 * @param computer the specific {@link MacroVariableComputer} to be used in order to compute the value of
 	 * the variable to be reported.
 	 * @param variableName the name of the variable to be reported.
 	 * VariableId the Id of the variable to be computed.
 	 */
-	private VariableComputer computer;
+	private MacroVariableComputer computer;
 	private String variableName;
 	private int VariableId;
 
@@ -48,14 +48,14 @@ public class MacroVariableTicEvent extends MacroTicEvent {
 	/**
 	 * @return the computer
 	 */
-	public VariableComputer getComputer() {
+	public MacroVariableComputer getComputer() {
 		return computer;
 	}
 
 	/**
 	 * @param computer the computer to set
 	 */
-	public void setComputer(VariableComputer computer) {
+	public void setComputer(MacroVariableComputer computer) {
 		this.computer = computer;
 	}
 

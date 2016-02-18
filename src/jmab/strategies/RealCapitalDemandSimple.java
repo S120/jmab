@@ -19,9 +19,9 @@ import java.util.List;
 
 import jmab.agents.InvestmentAgent;
 import jmab.agents.MacroAgent;
-import jmab.goods.CapitalGood;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.CapitalGood;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**

@@ -15,9 +15,9 @@
 package jmab.report;
 
 import jmab.agents.AbstractFirm;
-import jmab.goods.AbstractGood;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.AbstractGood;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -25,7 +25,7 @@ import net.sourceforge.jabm.agent.Agent;
  * @author Alessandro Caiani and Antoine Godin
  *
  */
-public class AveragePriceComputer implements VariableComputer {
+public class AveragePriceComputer implements MacroVariableComputer {
 	private int populationId; 
 	private int goodId;
 	private int salesId;

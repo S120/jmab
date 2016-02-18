@@ -14,7 +14,7 @@
  */
 package jmab.agents;
 
-import jmab.goods.Item;
+import jmab.stockmatrix.Item;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

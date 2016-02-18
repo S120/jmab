@@ -12,26 +12,17 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  */
-package jmab.init;
+package jmab.report;
 
-import net.sourceforge.jabm.Population;
-import net.sourceforge.jabm.init.AgentInitialiser;
+import jmab.simulations.MacroSimulation;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
- *
+ * Interface that defines the methods to be developed for any variable computer. Thats is the way to compute any 
+ *  variable of interest.
  */
-public class VoidMarketInitialiser implements AgentInitialiser {
+public interface MacroVariableComputer {
 
-	/**
-	 * 
-	 */
-	public VoidMarketInitialiser() {}
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.jabm.init.AgentInitialiser#initialise(net.sourceforge.jabm.Population)
-	 */
-	@Override
-	public void initialise(Population population) {}
-
+	public double computeVariable(MacroSimulation sim);
+	
 }

@@ -19,9 +19,9 @@ import java.util.List;
 import jmab.agents.CreditDemander;
 import jmab.agents.CreditSupplier;
 import jmab.agents.MacroAgent;
-import jmab.goods.Deposit;
-import jmab.goods.Loan;
 import jmab.simulations.MarketSimulation;
+import jmab.stockmatrix.Deposit;
+import jmab.stockmatrix.Loan;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

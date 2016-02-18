@@ -18,9 +18,9 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import jmab.agents.CreditSupplier;
-import jmab.goods.Item;
-import jmab.goods.Loan;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Item;
+import jmab.stockmatrix.Loan;
 import net.sourceforge.jabm.distribution.AbstractDelegatedDistribution;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 

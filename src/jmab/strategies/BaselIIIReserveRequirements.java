@@ -18,8 +18,8 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import jmab.agents.BaselIIIAgent;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**

@@ -27,10 +27,10 @@ import jmab.events.DeadAgentEvent;
 import jmab.events.MacroTicEvent;
 import jmab.expectations.Expectation;
 import jmab.expectations.PassedValues;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.population.MarketPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.Item;
 import jmab.strategies.MacroStrategy;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.AbstractAgent;
@@ -869,7 +869,7 @@ MacroAgent, EventListener {
 			byte[] valBytes = new byte[valSize];
 			buf.get(valBytes);
 			PassedValues val = this.passedValues.get(key);
-			val.populateExpectation(valBytes);
+			val.populatePassedValues(valBytes);
 		}
 	}
 	

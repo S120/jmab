@@ -25,7 +25,7 @@ import net.sourceforge.jabm.agent.Agent;
  * This computer computes the total Net Wealth of a specific population of agents (firms, households,
  * banks, etc.).
  */
-public class NetWealthComputer implements VariableComputer {
+public class NetWealthComputer implements MacroVariableComputer {
 	private int populationId;
 
 	/* (non-Javadoc)

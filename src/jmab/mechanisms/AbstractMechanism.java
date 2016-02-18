@@ -17,8 +17,8 @@ package jmab.mechanisms;
 import java.util.List;
 
 import jmab.agents.LiabilitySupplier;
-import jmab.goods.Item;
 import jmab.simulations.MarketSimulation;
+import jmab.stockmatrix.Item;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

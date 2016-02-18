@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  */
-package jmab.goods;
+package jmab.stockmatrix;
 
 import jmab.agents.MacroAgent;
 import jmab.agents.SimpleAbstractAgent;

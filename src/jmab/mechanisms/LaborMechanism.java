@@ -20,7 +20,7 @@ import jmab.agents.LaborDemander;
 import jmab.agents.LaborSupplier;
 import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
-import jmab.goods.Item;
+import jmab.stockmatrix.Item;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

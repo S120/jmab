@@ -16,7 +16,7 @@ package jmab.agents;
 
 import java.util.List;
 
-import jmab.goods.Item;
+import jmab.stockmatrix.Item;
 
 
 
@@ -25,7 +25,7 @@ import jmab.goods.Item;
  * Interface to be implemented if an agent interacts on the good market as a good demander
  * (i.e offers credit to agents).
  */
-public interface GoodDemander extends GoodAgent{
+public interface GoodDemander extends MacroAgent{
 	
 	/**
 	 * @return the demand for good idGood

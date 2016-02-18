@@ -18,8 +18,8 @@ import java.nio.ByteBuffer;
 
 import jmab.agents.AbstractBank;
 import jmab.agents.MacroAgent;
-import jmab.goods.Deposit;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Deposit;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;

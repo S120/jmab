@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jmab.agents.MacroAgent;
-import jmab.goods.ConsumptionGood;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.ConsumptionGood;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 

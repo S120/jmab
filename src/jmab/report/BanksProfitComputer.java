@@ -24,7 +24,7 @@ import net.sourceforge.jabm.agent.Agent;
  * @author Alessandro Caiani and Antoine Godin
  *
  */
-public class BanksProfitComputer implements VariableComputer {
+public class BanksProfitComputer implements MacroVariableComputer {
 	
 	private int populationId;
 	private int netWelthLagId;

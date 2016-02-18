@@ -16,7 +16,7 @@ package jmab.agents;
 
 import java.util.List;
 
-import jmab.goods.Item;
+import jmab.stockmatrix.Item;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

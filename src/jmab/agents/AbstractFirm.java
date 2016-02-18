@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.agent.Agent;
 
 /**

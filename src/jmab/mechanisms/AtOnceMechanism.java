@@ -20,10 +20,10 @@ import jmab.agents.GoodDemander;
 import jmab.agents.GoodSupplier;
 import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
-import jmab.goods.CapitalGood;
-import jmab.goods.ConsumptionGood;
-import jmab.goods.Item;
 import jmab.simulations.MarketSimulation;
+import jmab.stockmatrix.CapitalGood;
+import jmab.stockmatrix.ConsumptionGood;
+import jmab.stockmatrix.Item;
 
 /**
  * @author Alessandro Caiani and Antoine Godin

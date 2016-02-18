@@ -12,33 +12,33 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  */
-package jmab.goods;
+package jmab.stockmatrix;
 
 import jmab.agents.SimpleAbstractAgent;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
- *
- * Class representing equities holding
+ * 
+ * Class representing securities holding
  */
-public class Equity extends AbstractItem implements Item {
+public class Security extends AbstractItem implements Item {
 
 	private double price;
 	
 	/**
 	 * 
 	 */
-	public Equity() {
+	public Security() {
 	}
 
 	/**
-	 * @param value the value of the equities
-	 * @param the quantity of equities held
-	 * @param assetHolder the holder of equities
-	 * @param liabilityHolder the emitter of equities
-	 * @param price the price of the equity
+	 * @param value the value of the securities
+	 * @param quantity the number of securities held
+	 * @param assetHolder the holder of securities
+	 * @param liabilityHolder the emitter of securities
+	 * @param price the price of the securities
 	 */
-	public Equity(double value, double quantity, SimpleAbstractAgent assetHolder,
+	public Security(double value, double quantity, SimpleAbstractAgent assetHolder,
 			SimpleAbstractAgent liabilityHolder, double price) {
 		super(value, quantity, assetHolder, liabilityHolder);
 		this.price=price;
@@ -73,6 +73,7 @@ public class Equity extends AbstractItem implements Item {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)

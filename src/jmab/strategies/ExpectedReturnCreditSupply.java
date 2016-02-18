@@ -19,8 +19,8 @@ import java.nio.ByteBuffer;
 import jmab.agents.AbstractBank;
 import jmab.agents.CreditDemander;
 import jmab.agents.MacroAgent;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**

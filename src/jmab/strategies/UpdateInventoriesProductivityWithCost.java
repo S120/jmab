@@ -17,8 +17,8 @@ package jmab.strategies;
 import java.nio.ByteBuffer;
 
 import jmab.agents.AbstractFirm;
-import jmab.goods.CapitalGood;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.CapitalGood;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**

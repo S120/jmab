@@ -18,10 +18,10 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import jmab.agents.InvestmentAgent;
-import jmab.goods.CapitalGood;
-import jmab.goods.Item;
-import jmab.goods.Loan;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.CapitalGood;
+import jmab.stockmatrix.Item;
+import jmab.stockmatrix.Loan;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**

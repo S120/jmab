@@ -44,5 +44,5 @@ public interface PassedValues {
 	 * Populates the passed values with the byte array content
 	 * @param content a byte array structure containing all relevant data necessary to populate the passed values
 	 */
-	public void populateExpectation(byte[] content);
+	public void populatePassedValues(byte[] content);
 }

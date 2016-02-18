@@ -20,8 +20,8 @@ import jmab.agents.BondDemander;
 import jmab.agents.BondSupplier;
 import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
-import jmab.goods.Bond;
-import jmab.goods.Item;
+import jmab.stockmatrix.Bond;
+import jmab.stockmatrix.Item;
 
 
 /**

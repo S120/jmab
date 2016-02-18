@@ -97,7 +97,7 @@ public class TreeMapPassedValues implements PassedValues {
 	 * end for
 	 * @param content a byte array structure containing all relevant data necessary to populate the passed values
 	 */
-	public void populateExpectation(byte[] content){
+	public void populatePassedValues(byte[] content){
 		passedValues = new TreeMap<Integer,Double>();
 		ByteBuffer reader = ByteBuffer.wrap(content);
 		this.nbLags = reader.getInt();

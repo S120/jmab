@@ -26,7 +26,7 @@ import net.sourceforge.jabm.agent.Agent;
  * or a specific type of firms.
  *
  */
-public class BankruptcyComputer implements VariableComputer {
+public class BankruptcyComputer implements MacroVariableComputer {
 	private int populationId; // the ID of the population on which we want to compute the number of bankruptcies (banks, types of firms etc.)
 	
 	/* (non-Javadoc)

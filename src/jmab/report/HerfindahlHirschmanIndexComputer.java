@@ -17,11 +17,11 @@ package jmab.report;
 import java.util.List;
 
 import jmab.agents.MacroAgent;
-import jmab.goods.CapitalGood;
-import jmab.goods.ConsumptionGood;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.CapitalGood;
+import jmab.stockmatrix.ConsumptionGood;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -32,7 +32,7 @@ import net.sourceforge.jabm.agent.Agent;
  * heterogeneous. First we compute total sales in the market, and then we compute the market shares for each producer.
  * 
  */
-public class HerfindahlHirschmanIndexComputer implements VariableComputer {
+public class HerfindahlHirschmanIndexComputer implements MacroVariableComputer {
 	private int goodId; 
 	private int producersId;
 

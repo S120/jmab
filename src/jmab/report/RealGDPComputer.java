@@ -21,10 +21,10 @@ import jmab.agents.AbstractFirm;
 import jmab.agents.LaborDemander;
 import jmab.agents.LaborSupplier;
 import jmab.agents.MacroAgent;
-import jmab.goods.AbstractGood;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.AbstractGood;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -36,7 +36,7 @@ import net.sourceforge.jabm.agent.Agent;
  * Then we add public workers' wages.
  * 
  */
-public class RealGDPComputer implements VariableComputer {
+public class RealGDPComputer implements MacroVariableComputer {
 
 	private int governmentPopulationId; // the id of the government
 	private LinkedHashMap<Integer,Integer> goodPassedValueMap;

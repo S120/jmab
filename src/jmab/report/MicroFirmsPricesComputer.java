@@ -18,9 +18,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jmab.agents.MacroAgent;
-import jmab.goods.AbstractGood;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.stockmatrix.AbstractGood;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 

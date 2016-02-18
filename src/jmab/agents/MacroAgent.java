@@ -17,8 +17,8 @@ package jmab.agents;
 import java.util.List;
 
 import jmab.expectations.Expectation;
-import jmab.goods.Item;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.EventListener;
 import net.sourceforge.jabm.event.RoundFinishedEvent;

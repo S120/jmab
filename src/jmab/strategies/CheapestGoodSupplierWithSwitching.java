@@ -36,7 +36,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  */
 @SuppressWarnings("serial")
 public class CheapestGoodSupplierWithSwitching extends AbstractStrategy implements
-		SelectSellerStrategyWithSwitching {
+		SelectSellerStrategy {
 
 	private GoodSupplier previousGoodSupplier;
 	private SwitchingStrategy strategy;
@@ -128,7 +128,6 @@ public class CheapestGoodSupplierWithSwitching extends AbstractStrategy implemen
 	/* (non-Javadoc)
 	 * @see jmab.strategies.BuyingStrategyWithSwitching#setPreviousSeller(jmab.agents.GoodSupplier)
 	 */
-	@Override
 	public void setPreviousSeller(GoodSupplier counterpart) {
 		this.previousGoodSupplier=counterpart;
 		

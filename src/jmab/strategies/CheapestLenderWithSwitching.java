@@ -34,7 +34,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  */
 @SuppressWarnings("serial")
 public class CheapestLenderWithSwitching extends AbstractStrategy implements
-		SelectLenderStrategyWithSwitching {
+		SelectLenderStrategy {
 
 	private CreditSupplier previousLender;
 	private SwitchingStrategy strategy;
@@ -90,7 +90,6 @@ public class CheapestLenderWithSwitching extends AbstractStrategy implements
 	/* (non-Javadoc)
 	 * @see jmab.strategies.BorrowingStrategyWithSwitching#setPreviousLender(jmab.agents.CreditSupplier)
 	 */
-	@Override
 	public void setPreviousLender(CreditSupplier counterpart) {
 		this.previousLender=counterpart;
 
