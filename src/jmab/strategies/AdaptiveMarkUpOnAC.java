@@ -65,12 +65,6 @@ public class AdaptiveMarkUpOnAC extends AbstractStrategy implements
 			price=previousLowerBound*(1+markUp);
 			return price;
 		}
-		if(Double.isNaN(price)){
-			System.out.println("Blah");//TODO
-		}
-		if(Double.isNaN(seller.getPriceLowerBound())){
-			System.out.println("Blah");//TODO
-		}
 		if (price>seller.getPriceLowerBound()){
 			return price;
 		}

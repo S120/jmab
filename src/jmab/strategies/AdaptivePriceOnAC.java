@@ -55,12 +55,6 @@ public class AdaptivePriceOnAC extends AbstractStrategy implements
 		}else{
 			price+=(adaptiveParameter*price*distribution.nextDouble());
 		}
-		if(price==Double.NaN){
-			System.out.println("Blah");
-		}
-		if(seller.getPriceLowerBound()==Double.NaN){
-			System.out.println("Blah");
-		}
 		if (price>seller.getPriceLowerBound()){
 			return price;
 		}
