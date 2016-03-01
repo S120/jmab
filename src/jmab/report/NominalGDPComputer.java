@@ -17,7 +17,6 @@ package jmab.report;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import jmab.agents.AbstractFirm;
 import jmab.agents.LaborDemander;
 import jmab.agents.LaborSupplier;
 import jmab.agents.MacroAgent;
@@ -53,18 +52,7 @@ public class NominalGDPComputer implements MacroVariableComputer {
 	@Override
 	public double computeVariable(MacroSimulation sim) {
 		MacroPopulation macroPop = (MacroPopulation) sim.getPopulation();
-		// calculate average price change
 		Population pop = macroPop.getPopulation(priceIndexProducerId);
-		double totalSales=0;
-		double averagePrice=0;
-		for (Agent a:pop.getAgents()){
-			AbstractFirm firm= (AbstractFirm) a;
-			totalSales+=firm.getPassedValue(realSaleId, 0);
-			AbstractGood good = (AbstractGood)firm.getItemStockMatrix(true, priceGoodId);
-			averagePrice+=good.getPrice()*firm.getPassedValue(realSaleId,0);
-		}
-		averagePrice=averagePrice/totalSales;
-
 		// calculate nominal GDP
 		double gdpGoodsComponent=0;
 		double pastInventories=0;
