@@ -17,12 +17,13 @@ package jmab.agents;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
+import cern.jet.random.engine.RandomEngine;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.agent.Agent;
+import net.sourceforge.jabm.agent.AgentList;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -40,6 +41,7 @@ public abstract class AbstractFirm extends SimpleAbstractAgent implements LaborD
 	protected int loanAmortizationType;
 	protected double dividends;
 	protected double bailoutCost;
+	protected RandomEngine prng;
 	
 	/**
 	 * 
@@ -194,9 +196,13 @@ public abstract class AbstractFirm extends SimpleAbstractAgent implements LaborD
 	}
 	
 	protected void payWages(Item payingItem, int idMarket) {
-		Collections.shuffle(this.employees);
-		for(int i=0;i<employees.size();i++){
-			LaborSupplier employee = (LaborSupplier) employees.get(i);
+		int currentWorkers = this.employees.size();
+		AgentList emplPop = new AgentList();
+		for(MacroAgent ag : this.employees)
+			emplPop.add(ag);
+		emplPop.shuffle(prng);
+		for(int i=0;i<currentWorkers;i++){
+			LaborSupplier employee = (LaborSupplier) emplPop.get(i);
 			double wage = employee.getWage();
 			if(wage<payingItem.getValue()){
 				Item payableStock = employee.getPayableStock(idMarket);
@@ -314,5 +320,15 @@ public abstract class AbstractFirm extends SimpleAbstractAgent implements LaborD
 			}
 		}
 	}
+
+	public RandomEngine getPrng() {
+		return prng;
+	}
+
+	public void setPrng(RandomEngine prng) {
+		this.prng = prng;
+	}
+	
+	
 	
 }

@@ -121,7 +121,10 @@ public class ConsumptionFixedPropensitiesOOIWWithPersistency extends AbstractStr
 		AbstractHousehold household= (AbstractHousehold) this.getAgent(); 
 		double priceExpectation=household.getExpectation(consPriceExpectationID).getExpectation();
 		double pastConsumption=household.getPassedValue(pastConsumptionId, 1);
-		return persistency*pastConsumption+(1-persistency)*(propensityOOI*(household.getNetIncome()/priceExpectation)+propensityOOW*(household.getNetWealth()/priceExpectation));
+		double netIncome=household.getNetIncome();
+		double netWealth=household.getNetWealth();
+		double demand=persistency*pastConsumption+(1-persistency)*(propensityOOI*(netIncome/priceExpectation)+propensityOOW*(netWealth/priceExpectation));
+		return demand;
 	}
 	
 	/**
