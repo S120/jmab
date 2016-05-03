@@ -56,9 +56,11 @@ public class DynamicRandomRobinBuyerMixer extends AbstractMarketMixer implements
 						activeSellers.add(seller);
 					}
 				}
-				AgentArrivalEvent event = 
-						new AgentArrivalEvent(model, buyer, (ArrayList<Agent>) activeSellers);
-				model.fireEvent(event);
+				if(activeSellers.size()>0){
+					AgentArrivalEvent event = 
+							new AgentArrivalEvent(model, buyer, activeSellers);
+					model.fireEvent(event);
+				}
 			}
 		}
 	}
