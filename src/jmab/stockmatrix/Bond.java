@@ -24,7 +24,7 @@ import jmab.population.MacroPopulation;
  *
  * Class that represent a bond.
  */
-public class Bond extends AbstractItem implements Item {
+public class Bond extends AbstractItem implements Item, InterestBearingItem {
 
 	private int maturity;
 	private double interestRate;

@@ -24,7 +24,7 @@ import jmab.population.MacroPopulation;
  *
  * Class representing a deposit (current) account
  */
-public class Deposit extends AbstractItem implements Item {
+public class Deposit extends AbstractItem implements Item, InterestBearingItem {
 
 	private double interestRate;
 	

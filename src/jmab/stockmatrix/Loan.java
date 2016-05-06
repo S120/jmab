@@ -24,7 +24,7 @@ import jmab.population.MacroPopulation;
  *
  * Class representing loans
  */
-public class Loan extends AbstractItem implements Item {
+public class Loan extends AbstractItem implements Item, InterestBearingItem {
 
 	private double interestRate;
 	private int amortization;
