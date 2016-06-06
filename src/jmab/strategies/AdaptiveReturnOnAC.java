@@ -168,6 +168,14 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 	public void setIdLoans(int idLoans) {
 		this.idLoans = idLoans;
 	}
+	
+	public int getIdProduction() {
+		return idProduction;
+	}
+
+	public void setIdProduction(int idProduction) {
+		this.idProduction = idProduction;
+	}
 
 	/**
 	 * Generate the byte array structure of the strategy. The structure is as follow:
