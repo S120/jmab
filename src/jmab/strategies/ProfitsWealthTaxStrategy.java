@@ -49,7 +49,7 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 			}
 			else{
 				return Math.max(wealthTaxRate*wealth+profitTaxRate*profits, 0);
-				}
+			}
 		}
 		
 	}

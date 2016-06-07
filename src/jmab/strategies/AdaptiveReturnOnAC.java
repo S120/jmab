@@ -41,6 +41,7 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 	private int idCapitalValue;
 	private int idLoans;
 	private int idProduction;
+	private double capacityUtilisation;
 
 	/** 
 	 * This strategy changes in an adaptive way the price asked by producers on their output.
@@ -60,7 +61,7 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 		double price = seller.getPrice();
 		double capitalValue = seller.getPassedValue(idCapitalValue, 1);
 		double capacity = seller.getPassedValue(idCapacity, 1);
-		double capacityUtilisation = seller.getPassedValue(idProduction,1)/(4*seller.getPassedValue(idCapacity,1))+seller.getPassedValue(idProduction,2)/(4*seller.getPassedValue(idCapacity,2))+seller.getPassedValue(idProduction,3)/(4*seller.getPassedValue(idCapacity,3))+seller.getPassedValue(idProduction,4)/(4*seller.getPassedValue(idCapacity,4));
+		//double capacityUtilisation = seller.getPassedValue(idProduction,1)/(4*seller.getPassedValue(idCapacity,1))+seller.getPassedValue(idProduction,2)/(4*seller.getPassedValue(idCapacity,2))+seller.getPassedValue(idProduction,3)/(4*seller.getPassedValue(idCapacity,3))+seller.getPassedValue(idProduction,4)/(4*seller.getPassedValue(idCapacity,4));
 
 		List<Item> loans=seller.getItemsStockMatrix(false, idLoans);
 		double totInterests=0;
@@ -175,6 +176,14 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 
 	public void setIdProduction(int idProduction) {
 		this.idProduction = idProduction;
+	}
+
+	public double getCapacityUtilisation() {
+		return capacityUtilisation;
+	}
+
+	public void setCapacityUtilisation(double capacityUtilisation) {
+		this.capacityUtilisation = capacityUtilisation;
 	}
 
 	/**
