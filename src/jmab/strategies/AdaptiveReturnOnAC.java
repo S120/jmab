@@ -58,9 +58,11 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 	public double computePrice() {
 		PriceSetterWithTargets seller=(PriceSetterWithTargets) this.getAgent();
 		double referenceVariable= seller.getReferenceVariableForPrice();
-		double price = seller.getPrice();
+		double price = seller.getPrice();		
 		double capitalValue = seller.getPassedValue(idCapitalValue, 1);
 		double capacity = seller.getPassedValue(idCapacity, 1);
+		if(capacity<=0)
+			return price;
 		//double capacityUtilisation = seller.getPassedValue(idProduction,1)/(4*seller.getPassedValue(idCapacity,1))+seller.getPassedValue(idProduction,2)/(4*seller.getPassedValue(idCapacity,2))+seller.getPassedValue(idProduction,3)/(4*seller.getPassedValue(idCapacity,3))+seller.getPassedValue(idProduction,4)/(4*seller.getPassedValue(idCapacity,4));
 
 		List<Item> loans=seller.getItemsStockMatrix(false, idLoans);
