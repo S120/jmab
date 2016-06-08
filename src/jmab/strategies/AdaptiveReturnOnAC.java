@@ -76,8 +76,12 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 		}
 		double debtBurden = totInterests;
 		
-		double previousMarkUp=(returnRate*capitalValue+debtBurden)/(capacity*capacityUtilisation);
-		
+		double previousMarkUp;
+		if(capacity>0)
+			previousMarkUp=(returnRate*capitalValue+debtBurden)/(capacity*capacityUtilisation);
+		else
+			previousMarkUp = price/seller.getPriceLowerBound();
+			
 		if(referenceVariable>threshold){
 			returnRate-=(adaptiveParameter*returnRate*distribution.nextDouble());
 		}else{
@@ -85,8 +89,12 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 			
 		}
 		
-		double markUp=(returnRate*capitalValue+debtBurden)/(capacity*capacityUtilisation);
+		double markUp;
 		
+		if(capacity>0)
+			markUp=(returnRate*capitalValue+debtBurden)/(capacity*capacityUtilisation);
+		else
+			markUp = price/seller.getPriceLowerBound();
 		
 		if (seller.getPriceLowerBound()!=0){
 			price=seller.getPriceLowerBound()*(1+markUp);
