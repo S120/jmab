@@ -20,7 +20,7 @@ import java.util.TreeMap;
 import jmab.agents.SimpleAbstractAgent;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
-import jmab.strategies.AdaptiveMarkUpOnAC;
+import jmab.strategies.MarkupPricingStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -44,7 +44,7 @@ public class MicroFirmsMarkupComputer extends AbstractMicroComputer implements M
 		for (Agent i:pop.getAgents()){
 			SimpleAbstractAgent agent= (SimpleAbstractAgent) i;
 			if (!agent.isDead()){
-				AdaptiveMarkUpOnAC strategy = (AdaptiveMarkUpOnAC)agent.getStrategy(strategyId);
+				MarkupPricingStrategy strategy = (MarkupPricingStrategy)agent.getStrategy(strategyId);
 				result.put(agent.getAgentId(), strategy.getMarkUp());
 			}
 			else{

@@ -28,7 +28,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  */
 @SuppressWarnings("serial")
 public class AdaptiveMarkUpOnAC extends AbstractStrategy implements
-		PricingStrategy {
+		MarkupPricingStrategy {
 	
 	private double threshold; //to be set through the configuration file.
 	private double adaptiveParameter;

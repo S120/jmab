@@ -14,15 +14,13 @@ AdaptiveReturnOnAC * JMAB - Java Macroeconomic Agent Based Modeling Toolkit
  */
 package jmab.strategies;
 
-import jmab.agents.GoodDemander;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
  *
  */
-public interface PricingStrategy extends SingleStrategy {
+public interface MarkupPricingStrategy extends PricingStrategy {
 
-	public double computePrice();
-	public double computePriceForSpecificBuyer(GoodDemander buyer, double demand, boolean real);
+	public double getMarkUp();
 	
 }

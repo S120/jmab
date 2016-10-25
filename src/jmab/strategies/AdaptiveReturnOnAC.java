@@ -31,7 +31,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  */
 @SuppressWarnings("serial")
 public class AdaptiveReturnOnAC extends AbstractStrategy implements
-		PricingStrategy {
+		MarkupPricingStrategy {
 	
 	private double threshold; //to be set through the configuration file.
 	private double adaptiveParameter;
@@ -42,6 +42,7 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 	private int idLoans;
 	private int idProduction;
 	private double capacityUtilisation;
+	private double markUp;
 
 	/** 
 	 * This strategy changes in an adaptive way the price asked by producers on their output.
@@ -91,7 +92,7 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 			
 		}
 		
-		double markUp;
+		//double markUp;
 		
 		if(capacity>0)
 			markUp=(returnRate*capitalValue+debtBurden)/(capacity*capacityUtilisation);
@@ -194,6 +195,20 @@ public class AdaptiveReturnOnAC extends AbstractStrategy implements
 
 	public void setCapacityUtilisation(double capacityUtilisation) {
 		this.capacityUtilisation = capacityUtilisation;
+	}
+	
+	/**
+	 * @return the markUp
+	 */
+	public double getMarkUp() {
+		return markUp;
+	}
+
+	/**
+	 * @param markUp the markUp to set
+	 */
+	public void setMarkUp(double markUp) {
+		this.markUp = markUp;
 	}
 
 	/**
