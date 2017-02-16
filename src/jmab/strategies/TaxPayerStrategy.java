@@ -25,5 +25,7 @@ public interface TaxPayerStrategy extends SingleStrategy {
 	 * @return
 	 */
 	public double computeTaxes();
+	
+	public void updateRates(double multiplier);
 
 }

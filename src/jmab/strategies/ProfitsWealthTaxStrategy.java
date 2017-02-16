@@ -124,6 +124,15 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 		this.profitTaxRate = buf.getDouble();
 		this.depositId = buf.getInt();
 	}
+
+	/* (non-Javadoc)
+	 * @see jmab.strategies.TaxPayerStrategy#updateRates(double)
+	 */
+	@Override
+	public void updateRates(double multiplier) {
+		this.wealthTaxRate = this.wealthTaxRate*multiplier;
+		this.profitTaxRate = this.profitTaxRate*multiplier;
+	}
 	
 	
 }

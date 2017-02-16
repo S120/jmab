@@ -41,7 +41,15 @@ public class IncomeWealthTaxStrategy extends AbstractStrategy implements TaxPaye
 		double wealth=taxPayer.getNetWealth();
 		return Math.max(wealthTaxRate*wealth+incomeTaxRate*income, 0);
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see jmab.strategies.TaxPayerStrategy#updateRates(double)
+	 */
+	@Override
+	public void updateRates(double multiplier) {
+		this.wealthTaxRate = this.wealthTaxRate*multiplier;
+		this.incomeTaxRate = this.incomeTaxRate*multiplier;
+	}
 	/**
 	 * @return the wealthTaxRate
 	 */
