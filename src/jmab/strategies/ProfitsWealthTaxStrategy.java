@@ -30,6 +30,8 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 
 	private double wealthTaxRate;
 	private double profitTaxRate;
+	private double maxProfitTaxRate;
+	private double minProfitTaxRate;
 	private int depositId;
 	
 	/* (non-Javadoc)
@@ -66,6 +68,22 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 	 */
 	public void setWealthTaxRate(double wealthTaxRate) {
 		this.wealthTaxRate = wealthTaxRate;
+	}
+
+	public double getMaxProfitTaxRate() {
+		return maxProfitTaxRate;
+	}
+
+	public void setMaxProfitTaxRate(double maxProfitTaxRate) {
+		this.maxProfitTaxRate = maxProfitTaxRate;
+	}
+
+	public double getMinProfitTaxRate() {
+		return minProfitTaxRate;
+	}
+
+	public void setMinProfitTaxRate(double minProfitTaxRate) {
+		this.minProfitTaxRate = minProfitTaxRate;
 	}
 
 	/**
@@ -131,7 +149,15 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 	@Override
 	public void updateRates(double multiplier) {
 		this.wealthTaxRate = this.wealthTaxRate*multiplier;
-		this.profitTaxRate = this.profitTaxRate*multiplier;
+		if (this.profitTaxRate >= this.maxProfitTaxRate) {
+			this.profitTaxRate = this.maxProfitTaxRate;
+					}
+		else if (this.profitTaxRate <= minProfitTaxRate){
+			this.profitTaxRate = this.minProfitTaxRate;
+		}
+		else {
+			this.profitTaxRate = this.profitTaxRate*multiplier;
+		}
 	}
 	
 	
