@@ -29,7 +29,8 @@ public class IncomeWealthTaxStrategy extends AbstractStrategy implements TaxPaye
 
 	private double wealthTaxRate;
 	private double incomeTaxRate;
-	
+	private double maxIncomeTaxRate;
+	private double minIncomeTaxRate;
 	
 	/* (non-Javadoc)
 	 * @see jmab.strategies.TaxPayerStrategy#computeTaxes()
@@ -48,7 +49,15 @@ public class IncomeWealthTaxStrategy extends AbstractStrategy implements TaxPaye
 	@Override
 	public void updateRates(double multiplier) {
 		this.wealthTaxRate = this.wealthTaxRate*multiplier;
-		this.incomeTaxRate = this.incomeTaxRate*multiplier;
+		if (this.incomeTaxRate >= this.maxIncomeTaxRate) {
+			this.incomeTaxRate = this.maxIncomeTaxRate;
+					}
+		else if (this.incomeTaxRate <= minIncomeTaxRate){
+			this.incomeTaxRate = this.minIncomeTaxRate;
+		}
+		else {
+			this.incomeTaxRate = this.incomeTaxRate*multiplier;
+		}
 	}
 	/**
 	 * @return the wealthTaxRate
@@ -76,6 +85,22 @@ public class IncomeWealthTaxStrategy extends AbstractStrategy implements TaxPaye
 	 */
 	public void setIncomeTaxRate(double incomeTaxRate) {
 		this.incomeTaxRate = incomeTaxRate;
+	}
+
+	public double getMaxIncomeTaxRate() {
+		return maxIncomeTaxRate;
+	}
+
+	public void setMaxIncomeTaxRate(double maxIncomeTaxRate) {
+		this.maxIncomeTaxRate = maxIncomeTaxRate;
+	}
+
+	public double getMinIncomeTaxRate() {
+		return minIncomeTaxRate;
+	}
+
+	public void setMinIncomeTaxRate(double minIncomeTaxRate) {
+		this.minIncomeTaxRate = minIncomeTaxRate;
 	}
 
 	/**
