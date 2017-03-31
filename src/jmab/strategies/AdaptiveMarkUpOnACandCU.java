@@ -29,9 +29,8 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  *
  */
 @SuppressWarnings("serial")
-public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements
-		PricingStrategy {
-	
+public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements MarkupPricingStrategy {
+
 	private double threshold; //to be set through the configuration file.
 	private double adaptiveParameter;
 	private AbstractDelegatedDistribution distribution;
@@ -70,23 +69,23 @@ public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements
 				markUp-=(adaptiveParameter*markUp*distribution.nextDouble());
 			}else{
 				markUp+=(adaptiveParameter*markUp*distribution.nextDouble());
-				
+
 			}
 		}
 		else{
 			double pastSales=seller.getPassedValue(realSalesId, 1);
 			double pastpastSales=seller.getPassedValue(realSalesId, 2);
 			double realSalesChange= (double)(pastSales-pastpastSales)/ (double) pastpastSales;
-			
+
 			if(referenceVariable>threshold || realSalesChange<-0.0){
 				markUp-=(adaptiveParameter*markUp*distribution.nextDouble());
 			}
 			else{
 				markUp+=(adaptiveParameter*markUp*distribution.nextDouble());
-				
+
 			}
 		}
-		
+
 		if (seller.getPriceLowerBound()!=0){
 			price=seller.getPriceLowerBound()*(1+markUp);
 			if (price>seller.getPriceLowerBound()){
@@ -100,7 +99,7 @@ public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements
 			price=previousLowerBound*(1+markUp);
 			return price;
 		}
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -112,7 +111,7 @@ public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	/**
 	 * @return the distribution
 	 */
@@ -253,6 +252,6 @@ public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements
 		this.adaptiveParameter = buf.getDouble();
 		this.markUp = buf.getDouble();
 	}
-	
+
 
 }
