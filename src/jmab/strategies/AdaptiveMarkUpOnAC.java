@@ -28,8 +28,8 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  */
 @SuppressWarnings("serial")
 public class AdaptiveMarkUpOnAC extends AbstractStrategy implements
-		MarkupPricingStrategy {
-	
+MarkupPricingStrategy {
+
 	private double threshold; //to be set through the configuration file.
 	private double adaptiveParameter;
 	private AbstractDelegatedDistribution distribution;
@@ -56,7 +56,7 @@ public class AdaptiveMarkUpOnAC extends AbstractStrategy implements
 			markUp-=(adaptiveParameter*markUp*distribution.nextDouble());
 		}else{
 			markUp+=(adaptiveParameter*markUp*distribution.nextDouble());
-			
+
 		}
 		if (seller.getPriceLowerBound()!=0){
 			price=seller.getPriceLowerBound()*(1+markUp);
@@ -64,6 +64,12 @@ public class AdaptiveMarkUpOnAC extends AbstractStrategy implements
 		else{
 			price=previousLowerBound*(1+markUp);
 			return price;
+		}
+		if(Double.isNaN(price)){
+			System.out.println("NaN Markup");
+		}
+		if(Double.isNaN(seller.getPriceLowerBound())){
+			System.out.println("NaN Markup");
 		}
 		if (price>seller.getPriceLowerBound()){
 			return price;
@@ -82,7 +88,7 @@ public class AdaptiveMarkUpOnAC extends AbstractStrategy implements
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	/**
 	 * @return the distribution
 	 */
@@ -168,6 +174,6 @@ public class AdaptiveMarkUpOnAC extends AbstractStrategy implements
 		this.adaptiveParameter = buf.getDouble();
 		this.markUp = buf.getDouble();
 	}
-	
+
 
 }

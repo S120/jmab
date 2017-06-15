@@ -31,8 +31,8 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  */
 @SuppressWarnings("serial")
 public class AdaptiveReturnOnAC extends AbstractStrategy implements
-MarkupPricingStrategy {
-
+		MarkupPricingStrategy {
+	
 	private double threshold; //to be set through the configuration file.
 	private double adaptiveParameter;
 	private AbstractDelegatedDistribution distribution;
@@ -74,31 +74,31 @@ MarkupPricingStrategy {
 				double iRate=loan.getInterestRate();
 				double interests=iRate*loan.getValue();
 				totInterests +=interests;
-
+				
 			}
 		}
 		double debtBurden = totInterests;
-
+		
 		double previousMarkUp;
 		if(capacity>0)
 			previousMarkUp=(returnRate*capitalValue+debtBurden)/(capacity*capacityUtilisation);
 		else
 			previousMarkUp = price/seller.getPriceLowerBound();
-
+			
 		if(referenceVariable>threshold){
 			returnRate-=(adaptiveParameter*returnRate*distribution.nextDouble());
 		}else{
 			returnRate+=(adaptiveParameter*returnRate*distribution.nextDouble());
-
+			
 		}
-
+		
 		//double markUp;
-
+		
 		if(capacity>0)
 			markUp=(returnRate*capitalValue+debtBurden)/(capacity*capacityUtilisation);
 		else
 			markUp = price/seller.getPriceLowerBound();
-
+		
 		if (seller.getPriceLowerBound()!=0){
 			price=seller.getPriceLowerBound()*(1+markUp);
 		}
@@ -106,12 +106,6 @@ MarkupPricingStrategy {
 			double previousLowerBound=price/(1+previousMarkUp);
 			price=previousLowerBound*(1+markUp);
 			return price;
-		}
-		if(Double.isNaN(price)){
-			System.out.println("NaN Markup");
-		}
-		if(Double.isNaN(seller.getPriceLowerBound())){
-			System.out.println("NaN Markup");
 		}
 		if (price>seller.getPriceLowerBound()){
 			return price;
@@ -186,7 +180,7 @@ MarkupPricingStrategy {
 	public void setIdLoans(int idLoans) {
 		this.idLoans = idLoans;
 	}
-
+	
 	public int getIdProduction() {
 		return idProduction;
 	}
@@ -202,7 +196,7 @@ MarkupPricingStrategy {
 	public void setCapacityUtilisation(double capacityUtilisation) {
 		this.capacityUtilisation = capacityUtilisation;
 	}
-
+	
 	/**
 	 * @return the markUp
 	 */
@@ -227,7 +221,7 @@ MarkupPricingStrategy {
 		ByteBuffer buf = ByteBuffer.allocate(24);
 		buf.putDouble(threshold);
 		buf.putDouble(adaptiveParameter);
-		//		buf.putDouble(this.markUp);
+//		buf.putDouble(this.markUp);
 		return buf.array();
 	}
 
@@ -243,8 +237,8 @@ MarkupPricingStrategy {
 		ByteBuffer buf = ByteBuffer.wrap(content);
 		this.threshold = buf.getDouble();
 		this.adaptiveParameter = buf.getDouble();
-		//		this.markUp = buf.getDouble();
+//		this.markUp = buf.getDouble();
 	}
-
+	
 
 }
