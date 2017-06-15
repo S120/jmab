@@ -108,7 +108,7 @@ public class RealCapitalDemandWithPayBackPeriod extends AbstractStrategy
 			if (oldCapital.getAge()!=-1){
 			currentCapacity+=oldCapital.getProductivity()*oldCapital.getQuantity();
 			}
-			if (((laborProductivityOld-laborProductivityNew)/expectedWages*(oldCapital.getCapitalDuration()-oldCapital.getAge()))-newCapital.getPrice()>0){
+			if ((expectedWages/laborProductivityOld-expectedWages/laborProductivityNew)*(oldCapital.getCapitalDuration()-oldCapital.getAge())-newCapital.getPrice()>0){
 				oldCapital.setObsolete(true);
 			}else {
 				if (oldCapital.getCapitalDuration()- oldCapital.getAge()>1){ //i.e. the capital is still working in the next period
