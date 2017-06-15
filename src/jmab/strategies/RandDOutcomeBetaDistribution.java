@@ -30,11 +30,12 @@ import cern.jet.random.engine.RandomEngine;
 public class RandDOutcomeBetaDistribution extends AbstractStrategy implements
 		RandDOutcome {
 	
-	double expParameter;
+	protected double expParameter;
 	protected RandomEngine prng;
-	double alphaBetaDistribution;
-	double betaBetaDistribution;
-	
+	protected double alphaBetaDistribution;
+	protected double betaBetaDistribution;
+	protected Binomial bernoulli;
+	protected Beta beta;
 
 	
 	/**
@@ -66,6 +67,7 @@ public class RandDOutcomeBetaDistribution extends AbstractStrategy implements
 	 */
 	public void setAlphaBetaDistribution(double alphaBetaDistribution) {
 		this.alphaBetaDistribution = alphaBetaDistribution;
+		beta = new Beta(this.alphaBetaDistribution, this.betaBetaDistribution, this.prng);
 	}
 
 
@@ -82,6 +84,8 @@ public class RandDOutcomeBetaDistribution extends AbstractStrategy implements
 	 */
 	public void setBetaBetaDistribution(double betaBetaDistribution) {
 		this.betaBetaDistribution = betaBetaDistribution;
+		beta = new Beta(this.alphaBetaDistribution, this.betaBetaDistribution, this.prng);
+		
 	}
 
 
@@ -98,6 +102,7 @@ public class RandDOutcomeBetaDistribution extends AbstractStrategy implements
 	 */
 	public void setPrng(RandomEngine prng) {
 		this.prng = prng;
+		beta = new Beta(this.alphaBetaDistribution, this.betaBetaDistribution, this.prng);
 	}
 
 
@@ -110,11 +115,10 @@ public class RandDOutcomeBetaDistribution extends AbstractStrategy implements
 			return 0;
 		else{
 			double bernoulliParameter=1-Math.exp(-(expParameter*nbResearchers));
-			Binomial bernoulli = new Binomial(1, bernoulliParameter, prng);
+			bernoulli = new Binomial(1, bernoulliParameter, prng);
 			int success=bernoulli.nextInt();
 			double productivityGain=0;
 			if (success==1){
-				Beta beta= new Beta(alphaBetaDistribution, betaBetaDistribution, prng);
 				productivityGain=0.2*beta.nextDouble();
 			}
 			return productivityGain;

@@ -39,6 +39,13 @@ public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements MarkupP
 	private int capacityId;
 	private int productionId;
 	private int realSalesId;
+	/**
+	 * 
+	 */
+	public AdaptiveMarkUpOnACandCU() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/** 
 	 * This strategy changes in an adaptive way the price asked by producers on their output.
@@ -76,7 +83,6 @@ public class AdaptiveMarkUpOnACandCU extends AbstractStrategy implements MarkupP
 			double pastSales=seller.getPassedValue(realSalesId, 1);
 			double pastpastSales=seller.getPassedValue(realSalesId, 2);
 			double realSalesChange= (double)(pastSales-pastpastSales)/ (double) pastpastSales;
-
 			if(referenceVariable>threshold || realSalesChange<-0.0){
 				markUp-=(adaptiveParameter*markUp*distribution.nextDouble());
 			}
